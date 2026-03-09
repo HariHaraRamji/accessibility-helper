@@ -1,0 +1,379 @@
+import React, { useState, useEffect, useRef } from 'react';
+import Layout from '../components/Layout';
+
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+
+const MedicationReminder = () => {
+    const [medicines, setMedicines] = useState(() => {
+        try {
+            const saved = localStorage.getItem('medicines');
+            return saved ? JSON.parse(saved) : [];
+        } catch {
+            return [];
+        }
+    });
+
+    const [form, setForm] = useState({ name: '', dosage: '', time: '08:00', days: [], color: COLORS[0], notes: '' });
+    const [activeAlert, setActiveAlert] = useState(null);
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    // Step 4: Request notification permission on load
+    useEffect(() => {
+        if (Notification.permission === "default") {
+            Notification.requestPermission();
+        }
+    }, []);
+
+    // Persist to localStorage
+    useEffect(() => {
+        localStorage.setItem('medicines', JSON.stringify(medicines));
+    }, [medicines]);
+
+    // Clock update
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    // Step 2 & 3: Reminder Logic
+    useEffect(() => {
+        const checkReminders = () => {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][now.getDay()];
+            const todayString = now.toDateString();
+
+            medicines.forEach(med => {
+                const [medHour, medMinute] = med.time.split(":").map(Number);
+                const timeMatches = currentHour === medHour && currentMinute === medMinute;
+                const dayMatches = med.days.length === 0 || med.days.includes(currentDay);
+                const notTakenToday = med.takenDate !== todayString;
+
+                if (timeMatches && dayMatches && notTakenToday) {
+                    triggerReminder(med);
+                }
+            });
+        };
+
+        const interval = setInterval(checkReminders, 30000);
+        checkReminders();
+        return () => clearInterval(interval);
+    }, [medicines]);
+
+    const triggerReminder = (medicine) => {
+        setActiveAlert(medicine);
+
+        // Voice announcement
+        window.speechSynthesis.cancel();
+        const text = `Medicine reminder. Time to take ${medicine.name}. Dosage: ${medicine.dosage}. ${medicine.notes}`;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+
+        // Vibration
+        if (navigator.vibrate) {
+            navigator.vibrate([500, 200, 500, 200, 500]);
+        }
+
+        // Browser notification
+        if (Notification.permission === "granted") {
+            new Notification(`💊 ${medicine.name} Reminder`, {
+                body: `${medicine.dosage} — ${medicine.notes}`,
+                icon: "/favicon.ico"
+            });
+        }
+
+        // Auto dismiss after 15 seconds
+        setTimeout(() => setActiveAlert(null), 15000);
+    };
+
+    // Step 5: Reset "taken" status at midnight
+    useEffect(() => {
+        const resetAtMidnight = () => {
+            const now = new Date();
+            const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+            const msUntilMidnight = midnight.getTime() - now.getTime();
+
+            setTimeout(() => {
+                setMedicines(prev => prev.map(m => ({ ...m, taken: false, takenDate: null })));
+                resetAtMidnight();
+            }, msUntilMidnight);
+        };
+        resetAtMidnight();
+    }, []);
+
+    const handleAddMed = (e) => {
+        e.preventDefault();
+        if (!form.name) return;
+        const newMed = {
+            ...form,
+            id: Date.now(),
+            taken: false,
+            takenDate: null
+        };
+        setMedicines([...medicines, newMed]);
+        setForm({ name: '', dosage: '', time: '08:00', days: [], color: COLORS[0], notes: '' });
+    };
+
+    const toggleDay = (day) => {
+        setForm(prev => ({
+            ...prev,
+            days: prev.days.includes(day) ? prev.days.filter(d => d !== day) : [...prev.days, day]
+        }));
+    };
+
+    const markTaken = (id) => {
+        const todayString = new Date().toDateString();
+        setMedicines(prev => prev.map(m =>
+            m.id === id ? { ...m, taken: true, takenDate: todayString } : m
+        ));
+    };
+
+    const deleteMed = (id) => {
+        setMedicines(medicines.filter(m => m.id !== id));
+    };
+
+    const isDue = (medicine) => {
+        const now = new Date();
+        const [h, m] = medicine.time.split(":").map(Number);
+        const medMinutes = h * 60 + m;
+        const nowMinutes = now.getHours() * 60 + now.getMinutes();
+        const diff = medMinutes - nowMinutes;
+        const todayString = now.toDateString();
+        const notTakenToday = medicine.takenDate !== todayString;
+        return diff >= 0 && diff <= 30 && notTakenToday;
+    };
+
+    const formatTime = (timeStr) => {
+        const [h, m] = timeStr.split(':').map(Number);
+        const period = h >= 12 ? 'PM' : 'AM';
+        const displayH = h % 12 || 12;
+        return `${displayH}:${m.toString().padStart(2, '0')} ${period}`;
+    };
+
+    return (
+        <Layout>
+            {/* Notification Banner - Step 3 & Step 7 */}
+            {activeAlert && (
+                <div style={{
+                    position: 'fixed', top: '2rem', left: '50%', transform: 'translateX(-50%)',
+                    zIndex: 3000, background: '#ffffff', border: `2px solid ${activeAlert.color}`,
+                    borderRadius: '24px', padding: '1.5rem 2rem', minWidth: '400px',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)', animation: 'slideDown 0.4s ease-out',
+                    textAlign: 'center'
+                }}>
+                    <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>💊</div>
+                    <div style={{ fontWeight: '900', fontSize: '1.2rem', color: '#0f172a', marginBottom: '0.5rem' }}>
+                        {activeAlert.name} ({activeAlert.dosage})
+                    </div>
+                    <div style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+                        {activeAlert.notes || 'Time to take your medication.'}
+                    </div>
+                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                        <button
+                            onClick={() => setActiveAlert(null)}
+                            className="btn btn-secondary"
+                            style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem' }}
+                        >
+                            Dismiss
+                        </button>
+                        <button
+                            onClick={() => { markTaken(activeAlert.id); setActiveAlert(null); }}
+                            className="btn btn-primary"
+                            style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem' }}
+                        >
+                            Mark Taken
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+                <header style={{ marginBottom: '4rem', position: 'relative' }}>
+                    <div className="section-label">Health Monitoring</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                        <div>
+                            <h1 style={{ fontSize: '3.5rem', fontWeight: '800', marginBottom: '1rem', letterSpacing: '-0.02em' }}>
+                                Medical <span className="text-gradient">Companion</span>
+                            </h1>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem' }}>
+                                Accurate reminder engine with 24-hour sync.
+                            </p>
+                        </div>
+                        {/* Show current time - Step 7 */}
+                        <div style={{
+                            background: 'var(--bg-card)', padding: '1rem 1.5rem', borderRadius: '16px',
+                            border: '1px solid var(--border-light)', textAlign: 'right'
+                        }}>
+                            <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)' }}>CURRENT TIME</div>
+                            <div style={{ fontSize: '1.8rem', fontWeight: '800', fontFamily: 'monospace' }}>
+                                {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div className="grid" style={{ gridTemplateColumns: '1.2fr 1fr', gap: '3rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        {medicines.length === 0 ? (
+                            <div className="card" style={{ textAlign: 'center', padding: '5rem' }}>
+                                <div style={{ fontSize: '4rem', marginBottom: '2rem' }}>💊</div>
+                                <h3 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '1rem' }}>No medication scheduled</h3>
+                                <p style={{ color: 'var(--text-secondary)' }}>Add your medications to enable the reminder engine.</p>
+                            </div>
+                        ) : (
+                            medicines.map(med => (
+                                <div key={med.id} className="card" style={{
+                                    padding: '2rem', borderLeft: `8px solid ${med.color}`,
+                                    boxShadow: '0 4px 15px rgba(0,0,0,0.03)'
+                                }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+                                        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
+                                            <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: med.color }} />
+                                            <div>
+                                                <h3 style={{ fontSize: '1.5rem', fontWeight: '800' }}>{med.name}</h3>
+                                                <div style={{ color: 'var(--text-secondary)', fontWeight: '700' }}>
+                                                    {med.dosage} • Reminder: {formatTime(med.time)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style={{ display: 'flex', gap: '0.6rem' }}>
+                                            {isDue(med) && <span style={{ background: '#fee2e2', color: '#ef4444', padding: '0.4rem 1rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '900' }}>DUE!</span>}
+                                            {med.takenDate === new Date().toDateString() && <span style={{ background: '#dcfce7', color: '#10b981', padding: '0.4rem 1rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '900' }}>TAKEN</span>}
+                                        </div>
+                                    </div>
+
+                                    <div style={{ background: 'var(--bg-page)', borderRadius: '16px', padding: '1.2rem', marginBottom: '1.5rem', border: '1px solid var(--border-light)' }}>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '800', marginBottom: '0.4rem' }}>NEXT REMINDER</div>
+                                        <p style={{ fontWeight: '700', margin: 0 }}>
+                                            {med.days.length === 0 || med.days.length === 7 ? 'Every Day' : med.days.join(', ')} at {formatTime(med.time)}
+                                        </p>
+                                        {med.notes && <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.5rem' }}>Note: {med.notes}</p>}
+                                    </div>
+
+                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                        {/* Test Reminder Now - Step 7 */}
+                                        <button
+                                            onClick={() => triggerReminder(med)}
+                                            className="btn btn-secondary"
+                                            style={{ flex: 1, padding: '0.8rem' }}
+                                            title="Test Reminder Now"
+                                        >
+                                            🔔 Test
+                                        </button>
+                                        <button
+                                            onClick={() => markTaken(med.id)}
+                                            className="btn btn-primary"
+                                            style={{
+                                                flex: 2, padding: '0.8rem',
+                                                background: med.takenDate === new Date().toDateString() ? '#10b981' : 'var(--accent-gradient)'
+                                            }}
+                                            disabled={med.takenDate === new Date().toDateString()}
+                                        >
+                                            {med.takenDate === new Date().toDateString() ? '✓ Taken Today' : 'Mark as Taken'}
+                                        </button>
+                                        <button
+                                            onClick={() => deleteMed(med.id)}
+                                            style={{ background: '#fee2e2', color: '#ef4444', border: 'none', padding: '0.8rem 1rem', borderRadius: '12px', cursor: 'pointer' }}
+                                        >
+                                            🗑
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+
+                    <div className="card" style={{ height: 'fit-content' }}>
+                        <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '2rem' }}>Add Medicine</h3>
+                        <form onSubmit={handleAddMed} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>MEDICINE NAME</label>
+                                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="e.g. Paracetamol" required style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)' }} />
+                            </div>
+                            <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>DOSAGE</label>
+                                    <input type="text" value={form.dosage} onChange={e => setForm({ ...form, dosage: e.target.value })} placeholder="500mg" style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)' }} />
+                                </div>
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>TIME (24HR)</label>
+                                    <input type="time" value={form.time} onChange={e => setForm({ ...form, time: e.target.value })} required style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)' }} />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>REPEAT DAYS</label>
+                                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+                                    <button type="button" onClick={() => setForm({ ...form, days: DAYS })} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.7rem' }}>All</button>
+                                    <button type="button" onClick={() => setForm({ ...form, days: [] })} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.7rem' }}>Clear</button>
+                                </div>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                                    {DAYS.map(d => (
+                                        <button
+                                            key={d}
+                                            type="button"
+                                            onClick={() => toggleDay(d)}
+                                            style={{
+                                                padding: '0.5rem 0.8rem', borderRadius: '8px', fontSize: '0.8rem',
+                                                background: form.days.includes(d) ? 'var(--accent-primary)' : 'var(--bg-page)',
+                                                border: '1px solid var(--border-light)', color: form.days.includes(d) ? '#fff' : 'var(--text-primary)',
+                                                fontWeight: '700', cursor: 'pointer'
+                                            }}
+                                        >
+                                            {d}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>COLOR TAG</label>
+                                <div style={{ display: 'flex', gap: '0.8rem' }}>
+                                    {COLORS.map(c => (
+                                        <div
+                                            key={c}
+                                            onClick={() => setForm({ ...form, color: c })}
+                                            style={{
+                                                width: '24px', height: '24px', borderRadius: '50%', background: c,
+                                                cursor: 'pointer', border: form.color === c ? '3px solid #000' : '2px solid transparent',
+                                                transform: form.color === c ? 'scale(1.2)' : 'none', transition: '0.2s'
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>NOTES</label>
+                                <textarea
+                                    value={form.notes}
+                                    onChange={e => setForm({ ...form, notes: e.target.value })}
+                                    placeholder="Take with food..."
+                                    style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)', minHeight: '80px', resize: 'none' }}
+                                />
+                            </div>
+
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1.2rem', fontSize: '1rem' }}>
+                                Add Medicine
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <style>{`
+                @keyframes slideDown {
+                    from { transform: translate(-50%, -100%); opacity: 0; }
+                    to { transform: translate(-50%, 0); opacity: 1; }
+                }
+            `}</style>
+        </Layout>
+    );
+};
+
+export default MedicationReminder;
+
