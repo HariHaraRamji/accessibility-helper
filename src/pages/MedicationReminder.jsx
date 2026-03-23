@@ -159,31 +159,31 @@ const MedicationReminder = () => {
             {/* Notification Banner - Step 3 & Step 7 */}
             {activeAlert && (
                 <div style={{
-                    position: 'fixed', top: '2rem', left: '50%', transform: 'translateX(-50%)',
-                    zIndex: 3000, background: '#ffffff', border: `2px solid ${activeAlert.color}`,
-                    borderRadius: '24px', padding: '1.5rem 2rem', minWidth: '400px',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)', animation: 'slideDown 0.4s ease-out',
+                    position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)',
+                    zIndex: 3000, background: 'var(--bg-card)', border: `2px solid ${activeAlert.color}`,
+                    borderRadius: '16px', padding: '1.2rem 1.5rem', minWidth: '320px',
+                    boxShadow: 'var(--shadow-premium)', animation: 'slideDown 0.4s ease-out',
                     textAlign: 'center'
                 }}>
-                    <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>💊</div>
-                    <div style={{ fontWeight: '900', fontSize: '1.2rem', color: '#0f172a', marginBottom: '0.5rem' }}>
+                    <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>💊</div>
+                    <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>
                         {activeAlert.name} ({activeAlert.dosage})
                     </div>
-                    <div style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+                    <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.2rem' }}>
                         {activeAlert.notes || 'Time to take your medication.'}
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
                         <button
                             onClick={() => setActiveAlert(null)}
                             className="btn btn-secondary"
-                            style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem' }}
+                            style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem', borderRadius: '50px' }}
                         >
                             Dismiss
                         </button>
                         <button
                             onClick={() => { markTaken(activeAlert.id); setActiveAlert(null); }}
                             className="btn btn-primary"
-                            style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem' }}
+                            style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem', borderRadius: '50px' }}
                         >
                             Mark Taken
                         </button>
@@ -191,75 +191,76 @@ const MedicationReminder = () => {
                 </div>
             )}
 
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
-                <header style={{ marginBottom: '4rem', position: 'relative' }}>
-                    <div className="section-label">Health Monitoring</div>
+            <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 1.5rem' }}>
+                <header style={{ marginBottom: '2rem', position: 'relative' }}>
+                    <div className="section-label" style={{ marginBottom: '0.75rem', fontSize: '0.7rem' }}>Health Monitoring</div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                         <div>
-                            <h1 style={{ fontSize: '3.5rem', fontWeight: '800', marginBottom: '1rem', letterSpacing: '-0.02em' }}>
+                            <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
                                 Medical <span className="text-gradient">Companion</span>
                             </h1>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem' }}>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
                                 Accurate reminder engine with 24-hour sync.
                             </p>
                         </div>
                         {/* Show current time - Step 7 */}
                         <div style={{
-                            background: 'var(--bg-card)', padding: '1rem 1.5rem', borderRadius: '16px',
-                            border: '1px solid var(--border-light)', textAlign: 'right'
+                            background: 'var(--bg-card)', padding: '0.75rem 1.2rem', borderRadius: '12px',
+                            border: '1px solid var(--border-subtle)', textAlign: 'right', transition: 'all 0.3s ease'
                         }}>
-                            <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)' }}>CURRENT TIME</div>
-                            <div style={{ fontSize: '1.8rem', fontWeight: '800', fontFamily: 'monospace' }}>
+                            <div style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--text-muted)' }}>CURRENT TIME</div>
+                            <div style={{ fontSize: '1.4rem', fontWeight: '800', fontFamily: 'monospace' }}>
                                 {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                             </div>
                         </div>
                     </div>
                 </header>
 
-                <div className="grid" style={{ gridTemplateColumns: '1.2fr 1fr', gap: '3rem' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div className="grid" style={{ gridTemplateColumns: '1.2fr 1fr', gap: '1.5rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                         {medicines.length === 0 ? (
-                            <div className="card" style={{ textAlign: 'center', padding: '5rem' }}>
-                                <div style={{ fontSize: '4rem', marginBottom: '2rem' }}>💊</div>
-                                <h3 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '1rem' }}>No medication scheduled</h3>
-                                <p style={{ color: 'var(--text-secondary)' }}>Add your medications to enable the reminder engine.</p>
+                            <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
+                                <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>💊</div>
+                                <h3 style={{ fontSize: '1.2rem', fontWeight: '800', marginBottom: '0.75rem' }}>No medication scheduled</h3>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Add your medications to enable the reminder engine.</p>
                             </div>
                         ) : (
                             medicines.map(med => (
                                 <div key={med.id} className="card" style={{
-                                    padding: '2rem', borderLeft: `8px solid ${med.color}`,
-                                    boxShadow: '0 4px 15px rgba(0,0,0,0.03)'
+                                    padding: 'var(--card-padding)', borderLeft: `6px solid ${med.color}`,
+                                    boxShadow: 'var(--shadow-subtle)', background: 'var(--bg-card)',
+                                    border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease'
                                 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
-                                        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
-                                            <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: med.color }} />
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                            <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: med.color }} />
                                             <div>
-                                                <h3 style={{ fontSize: '1.5rem', fontWeight: '800' }}>{med.name}</h3>
-                                                <div style={{ color: 'var(--text-secondary)', fontWeight: '700' }}>
+                                                <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--text-primary)' }}>{med.name}</h3>
+                                                <div style={{ color: 'var(--text-secondary)', fontWeight: '700', fontSize: '0.9rem' }}>
                                                     {med.dosage} • Reminder: {formatTime(med.time)}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style={{ display: 'flex', gap: '0.6rem' }}>
-                                            {isDue(med) && <span style={{ background: '#fee2e2', color: '#ef4444', padding: '0.4rem 1rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '900' }}>DUE!</span>}
-                                            {med.takenDate === new Date().toDateString() && <span style={{ background: '#dcfce7', color: '#10b981', padding: '0.4rem 1rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '900' }}>TAKEN</span>}
+                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                            {isDue(med) && <span style={{ background: 'var(--danger-subtle)', color: 'var(--danger)', padding: '0.3rem 0.75rem', borderRadius: '50px', fontSize: '0.7rem', fontWeight: '900' }}>DUE!</span>}
+                                            {med.takenDate === new Date().toDateString() && <span style={{ background: 'var(--success-subtle)', color: 'var(--success)', padding: '0.3rem 0.75rem', borderRadius: '50px', fontSize: '0.7rem', fontWeight: '900' }}>TAKEN</span>}
                                         </div>
                                     </div>
 
-                                    <div style={{ background: 'var(--bg-page)', borderRadius: '16px', padding: '1.2rem', marginBottom: '1.5rem', border: '1px solid var(--border-light)' }}>
-                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '800', marginBottom: '0.4rem' }}>NEXT REMINDER</div>
-                                        <p style={{ fontWeight: '700', margin: 0 }}>
+                                    <div style={{ background: 'var(--bg-card-inner)', borderRadius: '12px', padding: '1rem', marginBottom: '1.2rem', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
+                                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '800', marginBottom: '0.3rem' }}>NEXT REMINDER</div>
+                                        <p style={{ fontWeight: '700', margin: 0, color: 'var(--text-primary)', fontSize: '0.9rem' }}>
                                             {med.days.length === 0 || med.days.length === 7 ? 'Every Day' : med.days.join(', ')} at {formatTime(med.time)}
                                         </p>
-                                        {med.notes && <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.5rem' }}>Note: {med.notes}</p>}
+                                        {med.notes && <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.4rem' }}>Note: {med.notes}</p>}
                                     </div>
 
-                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                    <div style={{ display: 'flex', gap: '0.75rem' }}>
                                         {/* Test Reminder Now - Step 7 */}
                                         <button
                                             onClick={() => triggerReminder(med)}
                                             className="btn btn-secondary"
-                                            style={{ flex: 1, padding: '0.8rem' }}
+                                            style={{ flex: 1, padding: '0.6rem', fontSize: '0.85rem', borderRadius: '50px' }}
                                             title="Test Reminder Now"
                                         >
                                             🔔 Test
@@ -268,8 +269,8 @@ const MedicationReminder = () => {
                                             onClick={() => markTaken(med.id)}
                                             className="btn btn-primary"
                                             style={{
-                                                flex: 2, padding: '0.8rem',
-                                                background: med.takenDate === new Date().toDateString() ? '#10b981' : 'var(--accent-gradient)'
+                                                flex: 2, padding: '0.6rem', fontSize: '0.85rem', borderRadius: '50px',
+                                                background: med.takenDate === new Date().toDateString() ? 'var(--success)' : 'var(--accent-gradient)'
                                             }}
                                             disabled={med.takenDate === new Date().toDateString()}
                                         >
@@ -277,7 +278,7 @@ const MedicationReminder = () => {
                                         </button>
                                         <button
                                             onClick={() => deleteMed(med.id)}
-                                            style={{ background: '#fee2e2', color: '#ef4444', border: 'none', padding: '0.8rem 1rem', borderRadius: '12px', cursor: 'pointer' }}
+                                            style={{ background: 'var(--danger-subtle)', color: 'var(--danger)', border: 'none', padding: '0.6rem 0.8rem', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.3s ease', fontSize: '0.9rem' }}
                                         >
                                             🗑
                                         </button>
@@ -287,41 +288,41 @@ const MedicationReminder = () => {
                         )}
                     </div>
 
-                    <div className="card" style={{ height: 'fit-content' }}>
-                        <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '2rem' }}>Add Medicine</h3>
-                        <form onSubmit={handleAddMed} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div className="card" style={{ height: 'fit-content', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease', padding: 'var(--card-padding)' }}>
+                        <h3 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '1.2rem', color: 'var(--text-primary)' }}>Add Medicine</h3>
+                        <form onSubmit={handleAddMed} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                             <div>
-                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>MEDICINE NAME</label>
-                                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="e.g. Paracetamol" required style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)' }} />
+                                <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>MEDICINE NAME</label>
+                                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="e.g. Paracetamol" required style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', fontSize: '0.9rem' }} />
                             </div>
-                            <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                            <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>DOSAGE</label>
-                                    <input type="text" value={form.dosage} onChange={e => setForm({ ...form, dosage: e.target.value })} placeholder="500mg" style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)' }} />
+                                    <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>DOSAGE</label>
+                                    <input type="text" value={form.dosage} onChange={e => setForm({ ...form, dosage: e.target.value })} placeholder="500mg" style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', fontSize: '0.9rem' }} />
                                 </div>
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>TIME (24HR)</label>
-                                    <input type="time" value={form.time} onChange={e => setForm({ ...form, time: e.target.value })} required style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)' }} />
+                                    <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>TIME (24HR)</label>
+                                    <input type="time" value={form.time} onChange={e => setForm({ ...form, time: e.target.value })} required style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', fontSize: '0.9rem' }} />
                                 </div>
                             </div>
 
                             <div>
-                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>REPEAT DAYS</label>
-                                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-                                    <button type="button" onClick={() => setForm({ ...form, days: DAYS })} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.7rem' }}>All</button>
-                                    <button type="button" onClick={() => setForm({ ...form, days: [] })} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.7rem' }}>Clear</button>
+                                <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>REPEAT DAYS</label>
+                                <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                                    <button type="button" onClick={() => setForm({ ...form, days: DAYS })} className="btn btn-secondary" style={{ padding: '0.3rem 0.6rem', fontSize: '0.65rem', borderRadius: '50px' }}>All</button>
+                                    <button type="button" onClick={() => setForm({ ...form, days: [] })} className="btn btn-secondary" style={{ padding: '0.3rem 0.6rem', fontSize: '0.65rem', borderRadius: '50px' }}>Clear</button>
                                 </div>
-                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
                                     {DAYS.map(d => (
                                         <button
                                             key={d}
                                             type="button"
                                             onClick={() => toggleDay(d)}
                                             style={{
-                                                padding: '0.5rem 0.8rem', borderRadius: '8px', fontSize: '0.8rem',
-                                                background: form.days.includes(d) ? 'var(--accent-primary)' : 'var(--bg-page)',
-                                                border: '1px solid var(--border-light)', color: form.days.includes(d) ? '#fff' : 'var(--text-primary)',
-                                                fontWeight: '700', cursor: 'pointer'
+                                                padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.75rem',
+                                                background: form.days.includes(d) ? 'var(--accent-primary)' : 'var(--bg-card-inner)',
+                                                border: '1px solid var(--border-subtle)', color: form.days.includes(d) ? '#fff' : 'var(--text-primary)',
+                                                fontWeight: '700', cursor: 'pointer', transition: 'all 0.3s ease'
                                             }}
                                         >
                                             {d}
@@ -331,16 +332,16 @@ const MedicationReminder = () => {
                             </div>
 
                             <div>
-                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>COLOR TAG</label>
-                                <div style={{ display: 'flex', gap: '0.8rem' }}>
+                                <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>COLOR TAG</label>
+                                <div style={{ display: 'flex', gap: '0.6rem' }}>
                                     {COLORS.map(c => (
                                         <div
                                             key={c}
                                             onClick={() => setForm({ ...form, color: c })}
                                             style={{
-                                                width: '24px', height: '24px', borderRadius: '50%', background: c,
-                                                cursor: 'pointer', border: form.color === c ? '3px solid #000' : '2px solid transparent',
-                                                transform: form.color === c ? 'scale(1.2)' : 'none', transition: '0.2s'
+                                                width: '20px', height: '20px', borderRadius: '50%', background: c,
+                                                cursor: 'pointer', border: form.color === c ? '2px solid var(--text-primary)' : '1px solid transparent',
+                                                transform: form.color === c ? 'scale(1.15)' : 'none', transition: '0.2s'
                                             }}
                                         />
                                     ))}
@@ -348,16 +349,16 @@ const MedicationReminder = () => {
                             </div>
 
                             <div>
-                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>NOTES</label>
+                                <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>NOTES</label>
                                 <textarea
                                     value={form.notes}
                                     onChange={e => setForm({ ...form, notes: e.target.value })}
                                     placeholder="Take with food..."
-                                    style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-light)', minHeight: '80px', resize: 'none' }}
+                                    style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', minHeight: '60px', borderRadius: '10px', resize: 'none', fontSize: '0.9rem' }}
                                 />
                             </div>
 
-                            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1.2rem', fontSize: '1rem' }}>
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.8rem', fontSize: '0.95rem', borderRadius: '50px' }}>
                                 Add Medicine
                             </button>
                         </form>

@@ -8,146 +8,92 @@ const Home = () => {
             title: 'Neural Narrator',
             path: '/tts',
             icon: '🔊',
-            color: 'var(--accent-primary)',
+            color: 'purple',
             desc: 'High-fidelity AI voice synthesis with human-like prosody and emotion.'
         },
         {
             title: 'Smart Dictation',
             path: '/stt',
             icon: '🎙️',
-            color: 'var(--accent-secondary)',
+            color: 'cyan',
             desc: 'State-of-the-art neural transcription for lectures, notes, and meetings.'
         },
         {
             title: 'Vision Intelligence',
             path: '/detection',
             icon: '👁️',
-            color: 'var(--success)',
+            color: 'green',
             desc: 'Real-time spatial awareness using deep learning for independent navigation.'
         },
         {
             title: 'Acoustic Alerts',
             path: '/sound',
             icon: '👂',
-            color: 'var(--warning)',
+            color: 'amber',
             desc: 'Real-time sound classification to perceive critical environmental audio cues.'
         },
         {
             title: 'Health Reminders',
             path: '/medicine',
             icon: '💊',
-            color: '#ec4899',
-            desc: 'Scheduled multi-sensory health alerts with persistent tracking and notes.'
+            color: 'pink',
+            desc: 'Scheduled health alerts with smart medication tracking and reminders.'
         },
     ];
 
     return (
         <Layout>
-            <div style={{ textAlign: 'left', marginBottom: '8rem', marginTop: '2rem' }}>
-                <div className="section-label">
+            {/* Hero Section */}
+            <div className="hero-section">
+                <div className="hero-glow" />
+
+                <div className="section-label" style={{ marginBottom: '1rem' }}>
                     Empowering Independence
                 </div>
 
-                <h1 style={{ fontSize: '5.5rem', lineHeight: '1', fontWeight: '800', marginBottom: '2rem', letterSpacing: '-0.03em' }}>
+                <h1 className="hero-heading">
                     The Next Evolution of <br />
-                    <span className="text-gradient">Accessible Intelligence</span>
+                    <span className="text-gradient">Accessibility Interligence</span>
                 </h1>
+                <span className="hero-underline" />
 
                 <p style={{
                     color: 'var(--text-secondary)',
-                    fontSize: '1.4rem',
-                    maxWidth: '850px',
-                    fontWeight: '400',
+                    fontSize: '1rem',
+                    maxWidth: '600px',
+                    margin: '1rem auto 0',
                     lineHeight: '1.6'
                 }}>
-                    A comprehensive suite of cognitive assistive tools designed to help you navigate,
-                    communicate, and live with total confidence.
+                    AI-powered tools designed for visually and hearing impaired users — navigate, listen, speak, and stay healthy with confidence.
                 </p>
             </div>
 
+            {/* Feature Cards Grid */}
             <div className="grid">
-                {features.map((feature, index) => (
+                {features.map((feature) => (
                     <Link
                         key={feature.path}
                         to={feature.path}
-                        className="card"
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '2.5rem',
-                            padding: '3.5rem',
-                            textDecoration: 'none',
-                            color: 'inherit'
-                        }}
+                        className="card feature-card"
+                        data-color={feature.color}
                     >
-                        <div style={{
-                            fontSize: '2.8rem',
-                            background: '#ffffff',
-                            width: '80px',
-                            height: '80px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: '20px',
-                            border: `2px solid ${feature.color}15`,
-                            boxShadow: `0 8px 20px ${feature.color}08`
-                        }}>
+                        <div
+                            className="feature-icon-box"
+                            data-color={feature.color}
+                        >
                             {feature.icon}
                         </div>
 
-                        <div>
-                            <h3 style={{ fontSize: '2.2rem', marginBottom: '1.2rem', color: 'var(--text-primary)' }}>{feature.title}</h3>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '1.15rem', lineHeight: '1.6' }}>
-                                {feature.desc}
-                            </p>
+                        <div style={{ flex: 1 }}>
+                            <h3 className="feature-card-title">{feature.title}</h3>
+                            <p className="feature-card-desc">{feature.desc}</p>
                         </div>
 
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.8rem',
-                            color: 'var(--accent-primary)',
-                            fontWeight: '700',
-                            fontSize: '1.1rem'
-                        }}>
+                        <div className="feature-card-link">
                             Open Feature <span>→</span>
                         </div>
                     </Link>
                 ))}
-            </div>
-
-            {/* Premium CTA Banner */}
-            <div className="card" style={{
-                marginTop: '6rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '4rem',
-                background: '#fcfcfe',
-                border: '1px solid var(--border-light)'
-            }}>
-                <div style={{ maxWidth: '600px' }}>
-                    <div className="section-label" style={{ marginBottom: '1.5rem' }}>Enhanced Support</div>
-                    <h2 style={{ fontSize: '2.8rem', marginBottom: '1.5rem' }}>Need more clarity?</h2>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', lineHeight: '1.6' }}>
-                        Activate <strong>Access Mode</strong> in the navigation bar to enable higher contrast,
-                        larger typography, and simplified layouts across the entire application.
-                    </p>
-                </div>
-                <div style={{ display: 'flex', gap: '3rem' }}>
-                    <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '2.5rem', marginBottom: '0.8rem' }}>🛡️</div>
-                        <div style={{ fontWeight: '800', fontSize: '0.9rem', color: 'var(--text-muted)' }}>SECURE</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '2.5rem', marginBottom: '0.8rem' }}>🧠</div>
-                        <div style={{ fontWeight: '800', fontSize: '0.9rem', color: 'var(--text-muted)' }}>NEURAL</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '2.5rem', marginBottom: '0.8rem' }}>⚡</div>
-                        <div style={{ fontWeight: '800', fontSize: '0.9rem', color: 'var(--text-muted)' }}>RAPID</div>
-                    </div>
-                </div>
             </div>
         </Layout>
     );

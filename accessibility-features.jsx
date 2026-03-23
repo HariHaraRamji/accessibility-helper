@@ -125,8 +125,8 @@ const features = [
     tag: "Hearing Impaired",
     tagColor: "#F97316",
     problem: "Deaf users miss critical ambient sounds: doorbells, fire alarms, crying babies, car horns — sounds that carry safety-critical information.",
-    how: "Runs the microphone feed through a pre-trained audio classification model (YAMNet via TensorFlow.js). Classifies incoming sounds in real time and renders prominent on-screen visual + haptic alerts with the sound type and urgency level.",
-    tech: ["Web Audio API", "TensorFlow.js (YAMNet)", "Web Vibration API", "Service Workers"],
+    how: "Analyzes microphone feed using Web Audio API frequency analysis. Identifies key sound patterns (doorbells, fire alarms, dogs) by matching frequency peaks and amplitude signatures in real-time, triggering visual + haptic alerts.",
+    tech: ["Web Audio API", "Frequency Analysis", "Web Vibration API", "requestAnimationFrame"],
     why: "Acts as a 24/7 environmental awareness layer, addressing a huge safety gap for deaf users living independently.",
     color: "#FFF7ED",
     border: "#F97316"
@@ -370,7 +370,7 @@ export default function App() {
               {/* Expanded Detail */}
               {selected?.id === f.id && (
                 <div style={{ marginTop: 20, borderTop: `1px solid ${f.border}25`, paddingTop: 20 }}>
-                  
+
                   <Section label="⚙️ How It Works" color={f.border}>
                     {f.how}
                   </Section>

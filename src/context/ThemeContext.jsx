@@ -10,7 +10,18 @@ export const ThemeProvider = ({ children, darkMode, setDarkMode }) => {
         localStorage.setItem('accessibilityMode', isAccessibilityMode);
     }, [isAccessibilityMode]);
 
-    const toggleDarkMode = () => setDarkMode(prev => !prev);
+    const toggleDarkMode = () => {
+        setDarkMode(prev => {
+            const next = !prev;
+            if (next) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+            localStorage.setItem("darkMode", String(next));
+            return next;
+        });
+    };
     const toggleAccessibilityMode = () => setIsAccessibilityMode(!isAccessibilityMode);
 
     return (

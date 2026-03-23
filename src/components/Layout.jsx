@@ -16,45 +16,40 @@ const Layout = ({ children }) => {
     ];
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-page)' }}>
-            {/* Clean White Header */}
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-page)', transition: 'background-color 0.3s' }}>
+            {/* Navbar */}
             <nav style={{
                 position: 'fixed',
                 top: 0,
                 left: 0,
                 right: 0,
                 zIndex: 1000,
-                height: '80px',
-                background: '#ffffff',
-                borderBottom: '1px solid var(--border-light)',
+                height: 'var(--navbar-height)',
+                background: 'var(--bg-navbar)',
+                borderBottom: '1px solid var(--border-subtle)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                padding: '0 4rem',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
+                padding: '0 2rem',
+                boxShadow: 'var(--shadow-subtle)',
+                transition: 'background-color 0.3s, border-color 0.3s'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
                     <Link to="/" style={{
-                        fontSize: '1.5rem',
+                        fontSize: '1.15rem',
                         fontWeight: '800',
                         textDecoration: 'none',
                         color: 'var(--text-primary)',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '0.6rem',
+                        gap: '0.5rem',
                         fontFamily: 'var(--font-heading)'
                     }}>
-                        <div style={{
-                            width: '32px', height: '32px',
-                            background: 'var(--accent-gradient)',
-                            borderRadius: '8px',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            color: '#fff', fontSize: '1rem'
-                        }}>⭐</div>
-                        <span style={{ letterSpacing: '-0.02em' }}>Access<span style={{ color: 'var(--accent-primary)' }}>Helper</span></span>
+                        <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>🧑🏻‍⚕️</span>
+                        <span style={{ letterSpacing: '-0.02em' }}>Accessibility<span style={{ color: 'var(--accent-primary)' }}>Assistant  </span></span>
                     </Link>
 
-                    <div style={{ display: 'flex', gap: '2.5rem' }}>
+                    <div style={{ display: 'flex', gap: '1.25rem' }}>
                         {navLinks.map(link => (
                             <Link
                                 key={link.path}
@@ -63,7 +58,7 @@ const Layout = ({ children }) => {
                                     textDecoration: 'none',
                                     color: location.pathname === link.path ? 'var(--accent-primary)' : 'var(--text-secondary)',
                                     fontWeight: location.pathname === link.path ? '700' : '500',
-                                    fontSize: '0.95rem',
+                                    fontSize: '0.82rem',
                                     transition: 'all 0.2s ease',
                                     position: 'relative'
                                 }}
@@ -71,7 +66,7 @@ const Layout = ({ children }) => {
                                 {link.name}
                                 {location.pathname === link.path && (
                                     <div style={{
-                                        position: 'absolute', bottom: '-29px', left: '0',
+                                        position: 'absolute', bottom: '-17px', left: '0',
                                         width: '100%', height: '3px',
                                         background: 'var(--accent-primary)',
                                         borderRadius: '2px 2px 0 0'
@@ -82,58 +77,29 @@ const Layout = ({ children }) => {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                    <button
-                        onClick={toggleAccessibilityMode}
-                        className="btn btn-secondary"
-                        style={{ padding: '0.6rem 1.4rem', fontSize: '0.85rem', borderRadius: '50px' }}
-                    >
-                        {isAccessibilityMode ? '👁️ Standard' : '👁️ Access Mode'}
-                    </button>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                     <button
                         onClick={toggleDarkMode}
                         style={{
-                            padding: '0.6rem 1.4rem', border: '1px solid var(--border-light)',
-                            borderRadius: '50px', fontSize: '0.9rem', background: '#fff', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                            fontWeight: '700', color: '#1e293b'
+                            padding: '0.35rem 0.85rem', border: '1px solid var(--border-subtle)',
+                            borderRadius: '50px', fontSize: '0.78rem', background: 'var(--bg-card-inner)', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem',
+                            fontWeight: '700', color: 'var(--text-primary)',
+                            transition: 'all 0.3s ease'
                         }}
                     >
-                        {isDarkMode ? "☀️ Light" : "🌙 Dark"}
+                        {isDarkMode ? "☀️ Sun" : "🌙 Dark"}
                     </button>
-
                 </div>
             </nav>
 
             <main className="container" style={{
                 flex: 1,
-                paddingTop: '8rem',
-                paddingBottom: '5rem'
+                paddingTop: 'calc(var(--navbar-height) + 1.5rem)',
+                paddingBottom: '2rem'
             }}>
                 {children}
             </main>
-
-            <footer style={{
-                padding: '5rem 0',
-                borderTop: '1px solid var(--border-light)',
-                backgroundColor: '#fcfcfe'
-            }}>
-                <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <div style={{ fontWeight: '800', fontSize: '1.2rem', color: '#1e293b', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)' }}>
-                            AccessHelper AI
-                        </div>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                            Defining the future of independence through accessible technology.
-                        </p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '2rem', fontSize: '1.5rem' }}>
-                        <span>🧠</span>
-                        <span>🚀</span>
-                        <span>💖</span>
-                    </div>
-                </div>
-            </footer>
         </div>
     );
 };

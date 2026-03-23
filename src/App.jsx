@@ -10,22 +10,23 @@ import MedicationReminder from './pages/MedicationReminder';
 import './App.css';
 
 function App() {
-  // Step 6: Load on startup
+  // Step 1: Initialize theme early
   const [darkMode, setDarkMode] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("darkMode")) || false;
-    } catch {
-      return false;
+    const saved = localStorage.getItem("darkMode");
+    const isDark = saved === "true";
+
+    // Apply class to html tag before first render
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
+
+    return isDark;
   });
 
-  // Step 6: Persist dark mode to localStorage
-  useEffect(() => {
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
-
   return (
-    <div className={darkMode ? "app dark-mode" : "app"}>
+    <div id="app-root">
       <ThemeProvider darkMode={darkMode} setDarkMode={setDarkMode}>
         <Router>
           <Routes>

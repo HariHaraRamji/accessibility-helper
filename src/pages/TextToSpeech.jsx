@@ -146,22 +146,22 @@ const TextToSpeech = () => {
 
     return (
         <Layout>
-            <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', color: '#1e293b', paddingTop: '4rem' }}>
-                <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }}>
-                    <header style={{ marginBottom: '4rem' }}>
-                        <h1 style={{ fontSize: '3.5rem', fontWeight: '900', color: '#1e293b', letterSpacing: '-0.02em', marginBottom: '1rem' }}>
-                            Neural <span style={{ color: '#9333ea' }}>Narrator</span>
+            <div style={{ backgroundColor: 'var(--bg-page)', minHeight: '100vh', color: 'var(--text-primary)', paddingTop: '4rem', transition: 'all 0.3s ease' }}>
+                <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 1.5rem' }}>
+                    <header style={{ marginBottom: '2rem' }}>
+                        <h1 style={{ fontSize: '2.2rem', fontWeight: '900', color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>
+                            Neural <span style={{ color: 'var(--accent-primary)' }}>Narrator</span>
                         </h1>
-                        <p style={{ color: '#64748b', fontSize: '1.25rem', fontWeight: '500' }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: '500' }}>
                             Premium accessibility engine with refined voice synthesis.
                         </p>
                     </header>
 
-                    <div className="grid" style={{ gridTemplateColumns: '1fr 400px', gap: '3rem', alignItems: 'start' }}>
+                    <div className="grid" style={{ gridTemplateColumns: '1fr 320px', gap: '1.5rem', alignItems: 'start' }}>
                         {/* Main Editor Section */}
-                        <div style={{ backgroundColor: '#f8fafc', padding: '2.5rem', borderRadius: '32px', border: '1px solid #e2e8f0' }}>
-                            <div style={{ marginBottom: '2.5rem' }}>
-                                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '800', color: '#94a3b8', letterSpacing: '0.1em', marginBottom: '1.5rem' }}>
+                        <div style={{ backgroundColor: 'var(--bg-card)', padding: 'var(--card-padding)', borderRadius: '24px', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
+                            <div style={{ marginBottom: '1.5rem' }}>
+                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '1rem' }}>
                                     TEXT CONTENT
                                 </label>
                                 <textarea
@@ -169,21 +169,21 @@ const TextToSpeech = () => {
                                     onChange={(e) => setText(e.target.value)}
                                     placeholder="Type or paste text here..."
                                     style={{
-                                        width: '100%', height: '400px', background: '#ffffff', border: '1px solid #e2e8f0',
-                                        borderRadius: '20px', padding: '2rem', fontSize: '1.2rem', lineHeight: '1.8',
-                                        color: '#334155', resize: 'none', outline: 'none', transition: 'box-shadow 0.2s'
+                                        width: '100%', height: '280px', background: 'var(--bg-card-inner)', border: '1px solid var(--border-subtle)',
+                                        borderRadius: '14px', padding: '1.2rem', fontSize: '1rem', lineHeight: '1.6',
+                                        color: 'var(--text-primary)', resize: 'none', outline: 'none', transition: 'all 0.3s ease'
                                     }}
                                 />
                             </div>
 
                             {isSpeaking && (
-                                <div style={{ background: '#f5f3ff', border: '1px solid #ddd6fe', padding: '2rem', borderRadius: '24px', marginBottom: '2.5rem' }}>
-                                    <div style={{ fontSize: '1.5rem', lineHeight: '1.7', fontWeight: '500', color: '#4c1d95' }}>
+                                <div style={{ background: 'var(--bg-card-inner)', border: '1px solid var(--accent-primary)', padding: '1.2rem', borderRadius: '16px', marginBottom: '1.5rem' }}>
+                                    <div style={{ fontSize: '1.1rem', lineHeight: '1.6', fontWeight: '500', color: 'var(--text-primary)' }}>
                                         {sentencesRef.current[currentSentenceIndex]?.split('').map((char, i) => (
                                             <span key={i} style={{
-                                                backgroundColor: i >= highlightIndices.start && i < highlightIndices.end ? '#9333ea' : 'transparent',
+                                                backgroundColor: i >= highlightIndices.start && i < highlightIndices.end ? 'var(--accent-primary)' : 'transparent',
                                                 color: i >= highlightIndices.start && i < highlightIndices.end ? '#ffffff' : 'inherit',
-                                                borderRadius: '4px', padding: '0 1px'
+                                                borderRadius: '3px', padding: '0 1px'
                                             }}>
                                                 {char}
                                             </span>
@@ -192,17 +192,17 @@ const TextToSpeech = () => {
                                 </div>
                             )}
 
-                            <div style={{ display: 'flex', gap: '1rem' }}>
+                            <div style={{ display: 'flex', gap: '0.75rem' }}>
                                 {!isSpeaking ? (
-                                    <button onClick={handleSpeak} className="btn" style={{ flex: 1, backgroundColor: '#9333ea', color: '#fff', padding: '1.5rem', fontSize: '1.2rem', borderRadius: '100px', fontWeight: '700' }}>
+                                    <button onClick={handleSpeak} className="btn" style={{ flex: 1, backgroundColor: 'var(--accent-primary)', color: '#fff', padding: '0.8rem', fontSize: '1rem', borderRadius: '50px', fontWeight: '700' }}>
                                         🔊 Read Aloud
                                     </button>
                                 ) : (
                                     <>
-                                        <button onClick={isPaused ? handleResume : handlePause} className="btn" style={{ flex: 1, backgroundColor: '#f1f5f9', color: '#475569', padding: '1.2rem', borderRadius: '100px', fontWeight: '700' }}>
+                                        <button onClick={isPaused ? handleResume : handlePause} className="btn" style={{ flex: 1, backgroundColor: 'var(--bg-card-inner)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)', padding: '0.8rem', borderRadius: '50px', fontWeight: '700' }}>
                                             {isPaused ? '▶️ Resume' : '⏸️ Pause'}
                                         </button>
-                                        <button onClick={handleStop} className="btn" style={{ flex: 1, backgroundColor: '#fee2e2', color: '#ef4444', padding: '1.2rem', borderRadius: '100px', fontWeight: '700' }}>
+                                        <button onClick={handleStop} className="btn" style={{ flex: 1, backgroundColor: 'var(--danger)', color: '#fff', padding: '0.8rem', borderRadius: '50px', fontWeight: '700' }}>
                                             ⏹️ Stop
                                         </button>
                                     </>
@@ -211,34 +211,34 @@ const TextToSpeech = () => {
                         </div>
 
                         {/* Controls Sidebar */}
-                        <aside style={{ backgroundColor: '#f8fafc', padding: '2.5rem', borderRadius: '32px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                        <aside style={{ backgroundColor: 'var(--bg-card)', padding: 'var(--card-padding)', borderRadius: '24px', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '1.5rem', transition: 'all 0.3s ease' }}>
                             <div style={{ position: 'relative' }} ref={dropdownRef}>
-                                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '800', color: '#94a3b8', letterSpacing: '0.1em', marginBottom: '1rem' }}>
+                                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
                                     VOICE SELECTION
                                 </label>
                                 <div
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                     style={{
-                                        background: '#fff', border: '1px solid #e2e8f0', padding: '1rem 1.5rem', borderRadius: '16px',
-                                        cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                                        background: 'var(--bg-card-inner)', border: '1px solid var(--border-subtle)', padding: '0.75rem 1rem', borderRadius: '12px',
+                                        cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.3s ease'
                                     }}
                                 >
-                                    <span style={{ fontWeight: '600', fontSize: '0.95rem' }}>{activeVoice?.name || 'Select Voice'}</span>
-                                    <span style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                                    <span style={{ fontWeight: '600', fontSize: '0.85rem', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activeVoice?.name || 'Select Voice'}</span>
+                                    <span style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none', transition: '0.2s', color: 'var(--text-primary)', fontSize: '0.8rem' }}>▼</span>
                                 </div>
 
                                 {isDropdownOpen && (
                                     <div style={{
-                                        position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff',
-                                        border: '1px solid #e2e8f0', borderRadius: '16px', marginTop: '0.5rem',
-                                        boxShadow: '0 10px 25px rgba(0,0,0,0.05)', zIndex: 100, overflow: 'hidden'
+                                        position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--bg-card-inner)',
+                                        border: '1px solid var(--border-subtle)', borderRadius: '16px', marginTop: '0.5rem',
+                                        boxShadow: 'var(--shadow-subtle)', zIndex: 100, overflow: 'hidden'
                                     }}>
                                         <input
                                             type="text"
                                             placeholder="Search voices..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            style={{ width: '100%', border: 'none', borderBottom: '1px solid #f1f5f9', padding: '1rem 1.5rem', outline: 'none' }}
+                                            style={{ width: '100%', border: 'none', borderBottom: '1px solid var(--border-subtle)', padding: '1rem 1.5rem', outline: 'none', background: 'transparent', color: 'var(--text-primary)' }}
                                         />
                                         <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
                                             {filteredVoices.map(v => (
@@ -247,19 +247,19 @@ const TextToSpeech = () => {
                                                     onClick={() => { setSelectedVoiceName(v.name); setIsDropdownOpen(false); }}
                                                     style={{
                                                         padding: '1rem 1.5rem', cursor: 'pointer', display: 'flex', justifyContent: 'space-between',
-                                                        backgroundColor: selectedVoiceName === v.name ? '#f5f3ff' : 'transparent',
-                                                        hover: { backgroundColor: '#f8fafc' }
+                                                        backgroundColor: selectedVoiceName === v.name ? 'var(--accent-primary)15' : 'transparent',
+                                                        color: 'var(--text-primary)'
                                                     }}
                                                 >
-                                                    <span style={{ fontWeight: selectedVoiceName === v.name ? '700' : '500', color: selectedVoiceName === v.name ? '#9333ea' : 'inherit' }}>{v.name}</span>
-                                                    <span style={{ fontSize: '0.7rem', padding: '2px 8px', background: '#f1f5f9', borderRadius: '100px', color: '#64748b', fontWeight: '800' }}>{v.lang}</span>
+                                                    <span style={{ fontWeight: selectedVoiceName === v.name ? '700' : '500', color: selectedVoiceName === v.name ? 'var(--accent-primary)' : 'inherit' }}>{v.name}</span>
+                                                    <span style={{ fontSize: '0.7rem', padding: '2px 8px', background: 'var(--bg-card)', borderRadius: '100px', color: 'var(--text-secondary)', fontWeight: '800' }}>{v.lang}</span>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
                                 )}
 
-                                <button onClick={handleTestVoice} style={{ width: '100%', marginTop: '1rem', background: '#f5f3ff', color: '#9333ea', border: '1px solid #ddd6fe', padding: '0.8rem', borderRadius: '12px', fontWeight: '700', cursor: 'pointer' }}>
+                                <button onClick={handleTestVoice} style={{ width: '100%', marginTop: '0.75rem', background: 'var(--bg-card-inner)', color: 'var(--accent-primary)', border: '1px solid var(--accent-primary)', padding: '0.6rem', borderRadius: '10px', fontWeight: '700', cursor: 'pointer', transition: 'all 0.3s ease', fontSize: '0.85rem' }}>
                                     ⚡ Test Voice
                                 </button>
                             </div>
@@ -270,19 +270,19 @@ const TextToSpeech = () => {
                                 { label: 'Volume', val: volume, set: setVolume, min: 0, max: 1 }
                             ].map(ctrl => (
                                 <div key={ctrl.label}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
-                                        <label style={{ fontSize: '0.8rem', fontWeight: '800', color: '#94a3b8' }}>{ctrl.label.toUpperCase()}</label>
-                                        <span style={{ fontWeight: '700', color: '#9333ea' }}>{ctrl.label === 'Volume' ? `${Math.round(ctrl.val * 100)}%` : `${ctrl.val}x`}</span>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                                        <label style={{ fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)' }}>{ctrl.label.toUpperCase()}</label>
+                                        <span style={{ fontWeight: '700', color: 'var(--accent-primary)', fontSize: '0.85rem' }}>{ctrl.label === 'Volume' ? `${Math.round(ctrl.val * 100)}%` : `${ctrl.val}x`}</span>
                                     </div>
                                     <input
                                         type="range" min={ctrl.min} max={ctrl.max} step="0.1" value={ctrl.val}
                                         onChange={(e) => ctrl.set(parseFloat(e.target.value))}
-                                        style={{ width: '100%', accentColor: '#9333ea' }}
+                                        style={{ width: '100%', height: '4px', accentColor: 'var(--accent-primary)' }}
                                     />
                                 </div>
                             ))}
 
-                            <div style={{ marginTop: 'auto', background: '#fff', padding: '1.5rem', borderRadius: '20px', border: '1px solid #e2e8f0', fontSize: '0.9rem', color: '#64748b' }}>
+                            <div style={{ marginTop: 'auto', background: 'var(--bg-card-inner)', padding: '1rem', borderRadius: '16px', border: '1px solid var(--border-subtle)', fontSize: '0.8rem', color: 'var(--text-secondary)', transition: 'all 0.3s ease' }}>
                                 💡 <strong>Accessibility Tip:</strong> Microsoft voices generally provide higher naturalness for long texts.
                             </div>
                         </aside>

@@ -149,63 +149,63 @@ const SpeechToText = () => {
 
     return (
         <Layout>
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
-                <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 1.5rem' }}>
+                <header style={{ textAlign: 'center', marginBottom: '2rem' }}>
                     <div style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '0.75rem',
-                        padding: '0.5rem 1.25rem',
+                        gap: '0.5rem',
+                        padding: '0.4rem 1rem',
                         borderRadius: '100px',
                         background: isRecording ? 'rgba(239, 68, 68, 0.1)' : 'rgba(99, 102, 241, 0.1)',
                         color: isRecording ? '#ef4444' : 'var(--accent-primary)',
                         fontWeight: '800',
-                        fontSize: '0.85rem',
+                        fontSize: '0.75rem',
                         textTransform: 'uppercase',
                         letterSpacing: '0.05em',
-                        marginBottom: '1.5rem',
+                        marginBottom: '1rem',
                         border: `1px solid ${isRecording ? '#ef444440' : 'var(--accent-primary)40'}`,
-                        boxShadow: isRecording ? '0 0 20px rgba(239, 68, 68, 0.2)' : 'none'
+                        boxShadow: isRecording ? '0 0 15px rgba(239, 68, 68, 0.15)' : 'none'
                     }}>
                         <span className={isRecording ? 'pulse' : ''}>
                             {isRecording ? '🔴 Recording' : '🎙️ Ready'}
                         </span>
                     </div>
-                    <h1 style={{ fontSize: '4rem', marginBottom: '1rem' }} className="text-gradient">Voice Notes</h1>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', maxWidth: '600px', margin: '0 auto' }}>
+                    <h1 style={{ fontSize: '2.8rem', marginBottom: '0.5rem' }} className="text-gradient">Voice Notes</h1>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '500px', margin: '0 auto' }}>
                         High-accuracy transcription with secure offline storage.
                     </p>
                 </header>
 
-                <div className="grid" style={{ gridTemplateColumns: '1fr 400px', gap: '2.5rem', alignItems: 'start' }}>
-                    <div className="card" style={{ padding: '2.5rem', borderRadius: '24px' }}>
-                        <div style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
+                <div className="grid" style={{ gridTemplateColumns: '1fr 320px', gap: '1.5rem', alignItems: 'start' }}>
+                    <div className="card" style={{ padding: 'var(--card-padding)', borderRadius: '24px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
+                        <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
                             <button
                                 onClick={toggleRecording}
                                 style={{
-                                    width: '120px', height: '120px',
+                                    width: '80px', height: '80px',
                                     borderRadius: '50%',
                                     background: isRecording
-                                        ? 'linear-gradient(135deg, #ef4444, #b91c1c)'
+                                        ? 'linear-gradient(135deg, var(--danger), #b91c1c)'
                                         : 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
                                     border: 'none',
                                     cursor: 'pointer',
-                                    fontSize: '3rem',
+                                    fontSize: '2rem',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                                    boxShadow: 'var(--shadow-subtle)',
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    margin: '0 auto 1.5rem'
+                                    margin: '0 auto 0.75rem'
                                 }}
                             >
                                 {isRecording ? '⏹️' : '🎙️'}
                             </button>
-                            <label style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>
+                            <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>
                                 {isRecording ? 'TAP TO STOP' : 'TAP TO RECORD'}
                             </label>
                         </div>
 
-                        <div style={{ marginBottom: '2rem' }}>
-                            <label style={{ display: 'block', marginBottom: '1rem', fontWeight: '800', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{ display: 'block', marginBottom: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', fontSize: '0.75rem' }}>
                                 TRANSCRIPT
                             </label>
                             <textarea
@@ -213,25 +213,26 @@ const SpeechToText = () => {
                                 onChange={(e) => setText(e.target.value)}
                                 placeholder="Your words will appear here..."
                                 style={{
-                                    height: '300px',
-                                    fontSize: '1.2rem',
-                                    lineHeight: '1.6',
-                                    background: '#f8f9ff',
-                                    padding: '1.5rem',
-                                    borderRadius: '16px',
-                                    border: isRecording ? '2px solid #ef444440' : '1px solid #e2e8f0',
-                                    color: '#334155',
+                                    height: '240px',
+                                    fontSize: '1rem',
+                                    lineHeight: '1.5',
+                                    background: 'var(--bg-card-inner)',
+                                    padding: '1.2rem',
+                                    borderRadius: '14px',
+                                    border: isRecording ? '2px solid var(--danger-subtle)' : '1px solid var(--border-subtle)',
+                                    color: 'var(--text-primary)',
                                     resize: 'none',
-                                    outline: 'none'
+                                    outline: 'none',
+                                    transition: 'all 0.3s ease'
                                 }}
                             />
                         </div>
 
-                        <div style={{ display: 'flex', gap: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '0.75rem' }}>
                             <button
                                 onClick={saveNote}
                                 className="btn btn-primary"
-                                style={{ flex: 2, borderRadius: '100px', padding: '1.25rem' }}
+                                style={{ flex: 2, borderRadius: '50px', padding: '0.75rem' }}
                                 disabled={!text.trim() && !interimTranscript}
                             >
                                 {editingNoteId ? '💾 Update Note' : '📥 Save Note'}
@@ -240,7 +241,7 @@ const SpeechToText = () => {
                                 <button
                                     onClick={() => { setEditingNoteId(null); setText(''); }}
                                     className="btn btn-secondary"
-                                    style={{ flex: 1, borderRadius: '100px' }}
+                                    style={{ flex: 1, borderRadius: '50px' }}
                                 >
                                     Cancel
                                 </button>
@@ -248,19 +249,19 @@ const SpeechToText = () => {
                         </div>
                     </div>
 
-                    <aside className="card" style={{ padding: '2rem', borderRadius: '24px', display: 'flex', flexDirection: 'column', height: 'fit-content', background: '#fff' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                            <h3 style={{ fontSize: '1.3rem', fontWeight: '800' }}>Recent Notes</h3>
+                    <aside className="card" style={{ padding: 'var(--card-padding)', borderRadius: '24px', display: 'flex', flexDirection: 'column', height: 'fit-content', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                            <h3 style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--text-primary)' }}>Recent Notes</h3>
                             <button
                                 onClick={downloadAll}
-                                style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold' }}
+                                style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}
                                 disabled={savedNotes.length === 0}
                             >
                                 ⬇️ Export
                             </button>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', maxHeight: '600px', overflowY: 'auto' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '500px', overflowY: 'auto' }}>
                             {savedNotes.length === 0 ? (
                                 <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>
                                     No notes saved yet. Start talking to see them here.
@@ -269,21 +270,22 @@ const SpeechToText = () => {
                                 savedNotes.map((note) => (
                                     <div key={note.id} style={{
                                         padding: '1.25rem',
-                                        background: '#f8f9ff',
+                                        background: 'var(--bg-card-inner)',
                                         borderRadius: '16px',
-                                        border: '1px solid #e2e8f0'
+                                        border: '1px solid var(--border-subtle)',
+                                        transition: 'all 0.3s ease'
                                     }}>
-                                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5', marginBottom: '1rem', color: '#0f172a', fontWeight: '500' }}>
+                                        <p style={{ fontSize: '0.95rem', lineHeight: '1.5', marginBottom: '1rem', color: 'var(--text-primary)', fontWeight: '500' }}>
                                             {note.text}
                                         </p>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                                            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                                                 {new Date(note.createdAt).toLocaleDateString()}
                                             </span>
                                             <div style={{ display: 'flex', gap: '0.5rem' }}>
                                                 <button onClick={() => readAloud(note.text)} title="Read Aloud" style={actionBtnStyle}>🔊</button>
                                                 <button onClick={() => editNote(note)} title="Edit" style={actionBtnStyle}>✏️</button>
-                                                <button onClick={() => deleteNote(note.id)} title="Delete" style={{ ...actionBtnStyle, color: '#ef4444' }}>🗑️</button>
+                                                <button onClick={() => deleteNote(note.id)} title="Delete" style={{ ...actionBtnStyle, color: 'var(--danger)' }}>🗑️</button>
                                             </div>
                                         </div>
                                     </div>
@@ -309,8 +311,9 @@ const SpeechToText = () => {
 };
 
 const actionBtnStyle = {
-    background: '#fff',
-    border: '1px solid #e2e8f0',
+    background: 'var(--bg-card)',
+    border: '1px solid var(--border-subtle)',
+    color: 'var(--text-primary)',
     width: '32px',
     height: '32px',
     borderRadius: '8px',
@@ -319,7 +322,7 @@ const actionBtnStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.2s'
+    transition: 'all 0.3s ease'
 };
 
 
