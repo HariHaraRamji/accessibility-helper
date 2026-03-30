@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 const Layout = ({ children }) => {
-    const { isDarkMode, isAccessibilityMode, toggleDarkMode, toggleAccessibilityMode } = useTheme();
+    const { isDarkMode, toggleDarkMode } = useTheme();
     const location = useLocation();
 
     const navLinks = [
@@ -16,90 +16,69 @@ const Layout = ({ children }) => {
     ];
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-page)', transition: 'background-color 0.3s' }}>
-            {/* Navbar */}
-            <nav style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 1000,
-                height: 'var(--navbar-height)',
-                background: 'var(--bg-navbar)',
-                borderBottom: '1px solid var(--border-subtle)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '0 2rem',
-                boxShadow: 'var(--shadow-subtle)',
-                transition: 'background-color 0.3s, border-color 0.3s'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                    <Link to="/" style={{
-                        fontSize: '1.15rem',
-                        fontWeight: '800',
-                        textDecoration: 'none',
-                        color: 'var(--text-primary)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontFamily: 'var(--font-heading)'
-                    }}>
-                        <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>🧑🏻‍⚕️</span>
-                        <span style={{ letterSpacing: '-0.02em' }}>Accessibility<span style={{ color: 'var(--accent-primary)' }}>Assistant  </span></span>
-                    </Link>
-
-                    <div style={{ display: 'flex', gap: '1.25rem' }}>
-                        {navLinks.map(link => (
-                            <Link
-                                key={link.path}
-                                to={link.path}
-                                style={{
-                                    textDecoration: 'none',
-                                    color: location.pathname === link.path ? 'var(--accent-primary)' : 'var(--text-secondary)',
-                                    fontWeight: location.pathname === link.path ? '700' : '500',
-                                    fontSize: '0.82rem',
-                                    transition: 'all 0.2s ease',
-                                    position: 'relative'
-                                }}
-                            >
-                                {link.name}
-                                {location.pathname === link.path && (
-                                    <div style={{
-                                        position: 'absolute', bottom: '-17px', left: '0',
-                                        width: '100%', height: '3px',
-                                        background: 'var(--accent-primary)',
-                                        borderRadius: '2px 2px 0 0'
-                                    }} />
-                                )}
-                            </Link>
-                        ))}
+        <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-background'} text-on-background selection:bg-tertiary-fixed selection:text-on-tertiary-fixed`}>
+            {/* TopNavBar Navigation Shell */}
+            <nav className={`${isDarkMode ? 'bg-slate-900' : 'bg-[#1E3A8A]'} shadow-xl border-b-4 border-amber-500 w-full top-0 z-50 sticky`}>
+                <div className="flex justify-between items-center w-full px-6 py-4 mx-auto max-w-7xl">
+                    <div className="flex items-center gap-8">
+                        <Link to="/" className={`text-2xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-white'} font-headline no-underline`}>
+                            AccessHelper
+                        </Link>
+                        <div className="hidden md:flex items-center gap-6 font-body text-base font-medium tracking-wide">
+                            {navLinks.map(link => (
+                                <Link
+                                    key={link.path}
+                                    to={link.path}
+                                    className={`transition-all duration-200 focus:scale-105 focus:ring-4 focus:ring-amber-500 outline-none px-2 py-1 rounded no-underline ${
+                                        location.pathname === link.path
+                                            ? 'text-white border-b-2 border-white pb-1'
+                                            : 'text-blue-100 hover:text-white hover:bg-blue-800'
+                                    } ${isDarkMode && location.pathname !== link.path ? 'hover:bg-slate-800' : ''}`}
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
-                </div>
-
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <button
-                        onClick={toggleDarkMode}
-                        style={{
-                            padding: '0.35rem 0.85rem', border: '1px solid var(--border-subtle)',
-                            borderRadius: '50px', fontSize: '0.78rem', background: 'var(--bg-card-inner)', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem',
-                            fontWeight: '700', color: 'var(--text-primary)',
-                            transition: 'all 0.3s ease'
-                        }}
-                    >
-                        {isDarkMode ? "☀️ Sun" : "🌙 Dark"}
-                    </button>
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={toggleDarkMode}
+                            className="material-symbols-outlined text-white hover:bg-blue-800 p-2 rounded-full focus:ring-4 focus:ring-amber-500 outline-none"
+                        >
+                            {isDarkMode ? 'light_mode' : 'dark_mode'}
+                        </button>
+                        <button className="bg-white text-primary font-bold px-4 py-2 rounded-lg hover:bg-blue-50 focus:ring-4 focus:ring-amber-500 outline-none transition-transform active:scale-95">
+                            Access Mode
+                        </button>
+                    </div>
                 </div>
             </nav>
 
-            <main className="container" style={{
-                flex: 1,
-                paddingTop: 'calc(var(--navbar-height) + 1.5rem)',
-                paddingBottom: '2rem'
-            }}>
+            <main className="w-full">
                 {children}
             </main>
+
+            {/* Footer */}
+            <footer className={`${isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'} border-t-2`}>
+                <div className="flex flex-col md:flex-row justify-between items-center px-8 py-12 w-full max-w-7xl mx-auto gap-8">
+                    <div className="flex flex-col gap-4">
+                        <span className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'} font-headline`}>AccessHelper</span>
+                        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>© 2024 AccessHelper. All rights reserved.</p>
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-8 font-label text-sm leading-relaxed">
+                        <a className={`${isDarkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-600 hover:text-blue-700'} font-bold underline focus:ring-4 focus:ring-blue-500 outline-none`} href="#">Accessibility Statement</a>
+                        <Link className={`${isDarkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-600 hover:text-blue-700'} underline focus:ring-4 focus:ring-blue-500 outline-none`} to="/privacy">Privacy Policy</Link>
+                    </div>
+                    <div className="flex gap-4">
+                        <button className={`material-symbols-outlined p-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} hover:text-primary transition-colors focus:ring-4 focus:ring-blue-500 outline-none`}>
+                            language
+                        </button>
+                        <button className={`material-symbols-outlined p-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} hover:text-primary transition-colors focus:ring-4 focus:ring-blue-500 outline-none`}>
+                            help
+                        </button>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 };

@@ -1,7 +1,160 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+/* Asymmetric Card Shape */
+.asymmetric-card {
+  border-top-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  border-top-right-radius: 0.125rem;
+  border-bottom-left-radius: 0.125rem;
+}
+
+body {
+  font-family: 'Lexend', sans-serif;
+}
+
+/* Selection colors */
+::selection {
+  background-color: #ffddb8;
+  color: #2a1700;
+}
+
+/* ── DARK MODE OVERRIDES ── */
+
+/* Dark mode background overrides */
+html.dark body {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .bg-background,
+html.dark .bg-surface,
+html.dark .bg-surface-container-lowest {
+  background-color: #0f172a !important;
+}
+
+html.dark .bg-surface-container-low,
+html.dark .bg-\[\#f9f9ff\] {
+  background-color: #1e293b !important;
+}
+
+html.dark .bg-surface-container,
+html.dark .bg-surface-container-high {
+  background-color: #1e293b !important;
+}
+
+/* Nav dark mode */
+html.dark nav {
+  background-color: #020617 !important;
+}
+
+/* Card backgrounds in dark */
+html.dark .asymmetric-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .asymmetric-card.border-l-4 {
+  border-left-width: 4px !important;
+}
+
+/* Feature cards dark */
+html.dark .feature-card-dark {
+  background-color: #1e293b !important;
+}
+
+/* Text color overrides for dark */
+html.dark .text-on-surface,
+html.dark .text-\[\#111827\],
+html.dark .text-on-background {
+  color: #f1f5f9 !important;
+}
+
+html.dark .text-on-surface-variant {
+  color: #94a3b8 !important;
+}
+
+html.dark .text-\[\#1E3A8A\] {
+  color: #93c5fd !important;
+}
+
+/* Footer dark */
+html.dark footer,
+html.dark .bg-slate-100 {
+  background-color: #020617 !important;
+}
+
+html.dark footer .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+html.dark footer .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+html.dark footer .border-slate-300 {
+  border-color: #1e293b !important;
+}
+
+/* Image section dark */
+html.dark .border-white {
+  border-color: #1e293b !important;
+}
+
+/* Hover effects dark */
+html.dark .hover\:bg-white:hover {
+  background-color: #334155 !important;
+}
+
+/* Performance list items */
+html.dark .perf-item {
+  color: #f1f5f9;
+}
+
+html.dark .perf-item p {
+  color: #94a3b8;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c5c5d3;
+  border-radius: 10px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Reset transition for everything to avoid animation conflicts */
+a, button, span, img, div, section, nav, footer, main, h1, h2, h3, h4, p {
+  transition: all 0.2s ease;
+}
+
+/* ── OLD CSS VARS FOR OTHER PAGES ── */
 :root {
-  /* LIGHT MODE - Accessibility-friendly light palette */
   --bg-page: #F6F8FA;
   --bg-navbar: #FFFFFF;
   --bg-card: #FFFFFF;
@@ -14,12 +167,12 @@
   --text-secondary: #57606A;
   --text-muted: #8B949E;
 
-  --accent-primary: #7C3AED;
+  --accent-primary: #1E3A8A;
   --accent-secondary: #06B6D4;
-  --accent-gradient: linear-gradient(135deg, #7C3AED, #A855F7);
+  --accent-gradient: linear-gradient(135deg, #1E3A8A, #3B82F6);
 
   --border-subtle: #D0D7DE;
-  --border-active: #7C3AED;
+  --border-active: #1E3A8A;
 
   --success: #10B981;
   --warning: #F59E0B;
@@ -27,18 +180,17 @@
   --pink: #EC4899;
 
   --shadow-subtle: 0 1px 4px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 4px 16px rgba(124, 58, 237, 0.12);
+  --shadow-hover: 0 4px 16px rgba(30, 58, 138, 0.12);
 
   --radius-lg: 14px;
   --radius-pill: 100px;
 
-  --font-main: 'DM Sans', system-ui, sans-serif;
-  --font-heading: 'Syne', system-ui, sans-serif;
+  --font-main: 'Lexend', system-ui, sans-serif;
+  --font-heading: 'Lexend', system-ui, sans-serif;
 
   --speed-normal: 0.3s;
   --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Compact Layout Variables */
   --container-max: 1100px;
   --navbar-height: 56px;
   --card-padding: 20px;
@@ -46,31 +198,25 @@
   --input-height: 44px;
 }
 
-/* DARK MODE - Accessibility-first dark palette */
 html.dark {
-  --bg-page: #0D1117;
-  --bg-navbar: #0D1117;
-  --bg-card: #161B22;
-  --bg-card-hover: #1C2128;
-  --bg-card-inner: #1C2128;
-  --bg-input: #161B22;
-  --bg-footer: #0D1117;
+  --bg-page: #0f172a;
+  --bg-navbar: #020617;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-card-inner: #334155;
+  --bg-input: #1e293b;
+  --bg-footer: #020617;
 
-  --text-primary: #F0F6FC;
-  --text-secondary: #8B949E;
-  --text-muted: #484F58;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
 
-  --border-subtle: #30363D;
+  --border-subtle: #334155;
   --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 0 24px rgba(124, 58, 237, 0.2);
+  --shadow-hover: 0 0 24px rgba(30, 58, 138, 0.2);
 }
 
-/* Accessibility Mode */
-[data-accessibility="enabled"] {
-  --base-size: 24px;
-  --radius-xl: 40px;
-}
-
+/* Global resets */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -86,72 +232,6 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: background-color var(--speed-normal), color var(--speed-normal);
-}
-
-h1, h2, h3, h4 {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-h1 { font-size: 2.2rem; }
-h2 { font-size: 1.7rem; }
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1rem; }
-
-.container {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  width: 100%;
-}
-
-/* Section Labels */
-.section-label {
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding-left: 1rem;
-  border-left: 3px solid var(--accent-primary);
-  margin-bottom: 1rem;
-  display: inline-block;
-  line-height: 1.5;
-}
-
-/* Theme Card */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: var(--card-padding);
-  box-shadow: var(--shadow-subtle);
-  transition: all var(--speed-normal) var(--easing-standard);
-  position: relative;
-  overflow: hidden;
-  color: var(--text-primary);
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  background: var(--bg-card-hover);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--border-active);
-}
-
-/* Typography Helpers */
-.text-gradient {
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
 }
 
 /* Inputs */
@@ -168,7 +248,6 @@ select {
   color: var(--text-primary);
   font-family: inherit;
   font-size: 0.95rem;
-  transition: all 0.2s ease;
   outline: none;
 }
 
@@ -187,10 +266,10 @@ input::placeholder {
 textarea:focus,
 input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+  box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
 }
 
-/* Buttons */
+/* Buttons - for other pages */
 .btn {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -202,7 +281,6 @@ input:focus {
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
-  transition: all 0.2s ease;
   font-size: 1rem;
   text-decoration: none;
 }
@@ -211,10 +289,9 @@ input:focus {
   background: var(--accent-gradient);
   color: #ffffff;
 }
-
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.25);
   opacity: 0.95;
 }
 
@@ -223,9 +300,8 @@ input:focus {
   border: 1px solid var(--accent-primary);
   color: var(--accent-primary);
 }
-
 .btn-secondary:hover {
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(30, 58, 138, 0.08);
 }
 
 .btn-danger {
@@ -243,7 +319,6 @@ input[type="range"] {
   border-radius: 10px;
   outline: none;
 }
-
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 20px;
@@ -255,46 +330,28 @@ input[type="range"]::-webkit-slider-thumb {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Grid System – 3 col desktop, 2 tablet, 1 mobile */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
+/* Container */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
 }
 
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* Card base - for other pages */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  box-shadow: var(--shadow-subtle);
+  position: relative;
+  overflow: hidden;
+  color: var(--text-primary);
 }
-
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-page);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 10px;
-}
-
-nav,
-header,
-.navbar {
-  background-color: var(--bg-navbar) !important;
-  border-bottom: 1px solid var(--border-subtle) !important;
-}
-
-footer {
-  background-color: var(--bg-footer) !important;
-  color: var(--text-secondary);
-  border-top: 1px solid var(--border-subtle) !important;
+.card:hover {
+  transform: translateY(-4px);
+  background: var(--bg-card-hover);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-active);
 }

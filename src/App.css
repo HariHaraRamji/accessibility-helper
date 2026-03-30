@@ -1,18 +1,16 @@
+/* ── App-level styles ── */
+
 .layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-header {
-  background-color: var(--secondary-bg);
-}
-
 main {
   flex: 1;
 }
 
-/* Animations for buttons */
+/* Buttons animation */
 .btn {
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -20,54 +18,12 @@ main {
   transform: scale(0.95);
 }
 
-/* ── Hero Section ── */
-.hero-section {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  margin-top: 0.5rem;
-  position: relative;
+/* No-underline utility for React Router Links */
+a.no-underline {
+  text-decoration: none !important;
 }
 
-.hero-glow {
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero-heading {
-  font-size: 2.8rem;
-  font-weight: 800;
-  line-height: 1.15;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.03em;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-underline {
-  display: block;
-  width: 180px;
-  height: 4px;
-  margin: 0.5rem auto 0;
-  background: linear-gradient(90deg, #7C3AED, #A855F7, #7C3AED);
-  border-radius: 2px;
-  background-size: 200% 100%;
-  animation: underlineShimmer 3s ease-in-out infinite;
-}
-
-@keyframes underlineShimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* ── Feature Cards ── */
+/* ── Feature Cards (for other pages that still use old card styles) ── */
 .feature-card {
   display: flex;
   flex-direction: column;
@@ -88,12 +44,11 @@ main {
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 24px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 0 24px rgba(30, 58, 138, 0.18);
   border-color: var(--border-active);
   border-top-color: inherit;
 }
 
-/* Preserve colored top border on hover */
 .feature-card[data-color="purple"]:hover { border-top-color: #7C3AED; }
 .feature-card[data-color="cyan"]:hover   { border-top-color: #06B6D4; }
 .feature-card[data-color="green"]:hover  { border-top-color: #10B981; }
@@ -145,4 +100,93 @@ main {
 
 .feature-card:hover .feature-card-link {
   gap: 0.75rem;
+}
+
+/* ── Hero Section (legacy, for pages that still use it) ── */
+.hero-section {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  margin-top: 0.5rem;
+  position: relative;
+}
+
+.hero-glow {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-heading {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-underline {
+  display: block;
+  width: 180px;
+  height: 4px;
+  margin: 0.5rem auto 0;
+  background: linear-gradient(90deg, #1E3A8A, #3B82F6, #1E3A8A);
+  border-radius: 2px;
+  background-size: 200% 100%;
+  animation: underlineShimmer 3s ease-in-out infinite;
+}
+
+@keyframes underlineShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Section label */
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-left: 1rem;
+  border-left: 3px solid var(--accent-primary);
+  margin-bottom: 1rem;
+  display: inline-block;
+  line-height: 1.5;
+}
+
+/* Text gradient */
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Grid System */
+.grid-legacy {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .grid-legacy {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-legacy {
+    grid-template-columns: 1fr;
+  }
 }

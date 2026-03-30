@@ -1,16 +1,79 @@
 <!doctype html>
-<html lang="en">
+<html class="light" lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
-  <title>AccessHelper | Modern Accessibility Tools</title>
+  <title>AccessHelper Dashboard - Empowering Independence</title>
+  <meta name="description" content="Revolutionary assistive technology designed to enhance your daily interaction with the world through real-time AI processing and empathetic design." />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-variant": "#dce2f7",
+            "inverse-on-surface": "#edf0ff",
+            "primary": "#00236f",
+            "on-tertiary-fixed-variant": "#653e00",
+            "on-tertiary": "#ffffff",
+            "on-surface-variant": "#444651",
+            "on-primary": "#ffffff",
+            "outline": "#757682",
+            "tertiary-fixed-dim": "#ffb95f",
+            "background": "#f9f9ff",
+            "on-secondary-fixed": "#121c2a",
+            "surface-container-high": "#e1e8fd",
+            "on-secondary-container": "#596374",
+            "on-primary-fixed": "#00164e",
+            "error-container": "#ffdad6",
+            "surface": "#f9f9ff",
+            "on-primary-container": "#90a8ff",
+            "on-secondary": "#ffffff",
+            "surface-container": "#e9edff",
+            "on-surface": "#141b2b",
+            "primary-fixed": "#dce1ff",
+            "on-error": "#ffffff",
+            "tertiary": "#3e2400",
+            "on-tertiary-fixed": "#2a1700",
+            "on-error-container": "#93000a",
+            "inverse-surface": "#293040",
+            "surface-tint": "#4059aa",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#264191",
+            "secondary": "#555f70",
+            "surface-container-highest": "#dce2f7",
+            "secondary-fixed": "#d9e3f7",
+            "surface-dim": "#d3daef",
+            "on-secondary-fixed-variant": "#3d4757",
+            "on-background": "#141b2b",
+            "tertiary-container": "#5c3800",
+            "primary-fixed-dim": "#b6c4ff",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#d6e0f4",
+            "on-tertiary-container": "#ef9900",
+            "surface-bright": "#f9f9ff",
+            "inverse-primary": "#b6c4ff",
+            "primary-container": "#1e3a8a",
+            "surface-container-low": "#f1f3ff",
+            "tertiary-fixed": "#ffddb8",
+            "outline-variant": "#c5c5d3",
+            "secondary-fixed-dim": "#bdc7db"
+          },
+          fontFamily: {
+            "headline": ["Lexend"],
+            "body": ["Lexend"],
+            "label": ["Inter"]
+          },
+          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+        },
+      },
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
 </head>

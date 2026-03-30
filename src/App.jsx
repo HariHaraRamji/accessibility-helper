@@ -7,6 +7,8 @@ import SpeechToText from './pages/SpeechToText';
 import ObjectDetection from './pages/ObjectDetection';
 import SoundDetection from './pages/SoundDetection';
 import MedicationReminder from './pages/MedicationReminder';
+import About from './pages/About';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import './App.css';
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
             <Route path="/detection" element={<ObjectDetection />} />
             <Route path="/sound" element={<SoundDetection />} />
             <Route path="/medicine" element={<MedicationReminder />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
           </Routes>
         </Router>
       </ThemeProvider>
