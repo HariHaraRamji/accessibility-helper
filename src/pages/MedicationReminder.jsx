@@ -355,7 +355,7 @@ const MedicationReminder = () => {
                                     value={form.notes}
                                     onChange={e => setForm({ ...form, notes: e.target.value })}
                                     placeholder="Take with food..."
-                                    style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', minHeight: '60px', borderRadius: '10px', resize: 'none', fontSize: '0.9rem' }}
+                                    style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', minHeight: '60px', resize: 'none', fontSize: '0.9rem' }}
                                 />
                             </div>
 
