@@ -200,7 +200,7 @@ const SoundDetection = () => {
             <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 1.5rem' }}>
                 <header style={{ marginBottom: '2rem' }}>
                     <div className="section-label" style={{ marginBottom: '0.75rem', fontSize: '0.7rem' }}>Acoustic Intelligence v3</div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', md: 'row', justifyContent: 'space-between', alignItems: 'flex-start', md: 'flex-end', gap: '1.5rem' }}>
                         <div>
                             <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
                                 Sound <span className="text-gradient">Classifier</span>
@@ -220,25 +220,25 @@ const SoundDetection = () => {
                     </div>
                 </header>
 
-                <div className="grid" style={{ gridTemplateColumns: '1.2fr 1fr', gap: '1.5rem' }}>
+                <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
 
                     {/* Left Column */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div style={{ flex: 1.2, width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
                         {/* Control Card */}
                         <div className="card" style={{ padding: 'var(--card-padding)', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                            <button
-                                onClick={isListening ? stopListening : startListening}
-                                style={{
-                                    width: '100%', padding: '1.2rem',
-                                    background: isListening ? 'var(--danger)' : 'var(--accent-gradient)',
-                                    fontSize: '1.1rem', borderRadius: '50px',
-                                    color: 'white', fontWeight: '900', border: 'none', cursor: 'pointer',
-                                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-                                }}
-                            >
-                                {isListening ? '🛑 STOP MONITORING' : '👂 START DETECTION ENGINE'}
-                            </button>
+                                <button
+                                    onClick={isListening ? stopListening : startListening}
+                                    style={{
+                                        width: '100%', padding: '1rem', minHeight: '48px',
+                                        background: isListening ? 'var(--danger)' : 'var(--accent-gradient)',
+                                        fontSize: '1rem', borderRadius: '50px',
+                                        color: 'white', fontWeight: '900', border: 'none', cursor: 'pointer',
+                                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
+                                    }}
+                                >
+                                    {isListening ? '🛑 STOP MONITORING' : '👂 START ENGINE'}
+                                </button>
                         </div>
 
                         {/* Real-time Classification Section */}
@@ -298,8 +298,8 @@ const SoundDetection = () => {
                     </div>
 
                     {/* Right Column: Live Detection Log */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                        <div className="card" style={{ padding: 'var(--card-padding)', flex: 1, minHeight: '650px', background: 'var(--bg-card)' }}>
+                    <div style={{ flex: 1, width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        <div className="card" style={{ padding: 'var(--card-padding)', flex: 1, minHeight: '400px', md: '650px', background: 'var(--bg-card)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                                 <h3 style={{ fontSize: '1.2rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '0.8rem', letterSpacing: '-0.01em' }}>
                                     DETECTION LOG {isListening && <div style={{ width: '10px', height: '10px', background: 'var(--success)', borderRadius: '50%', animation: 'pulse 1.5s infinite' }} />}

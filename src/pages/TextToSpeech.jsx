@@ -157,9 +157,9 @@ const TextToSpeech = () => {
                         </p>
                     </header>
 
-                    <div className="grid" style={{ gridTemplateColumns: '1fr 320px', gap: '1.5rem', alignItems: 'start' }}>
+                    <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start">
                         {/* Main Editor Section */}
-                        <div style={{ backgroundColor: 'var(--bg-card)', padding: 'var(--card-padding)', borderRadius: '24px', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
+                        <div style={{ flex: 1, width: '100%', backgroundColor: 'var(--bg-card)', padding: 'var(--card-padding)', borderRadius: '24px', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
                             <div style={{ marginBottom: '1.5rem' }}>
                                 <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '1rem' }}>
                                     TEXT CONTENT
@@ -194,15 +194,15 @@ const TextToSpeech = () => {
 
                             <div style={{ display: 'flex', gap: '0.75rem' }}>
                                 {!isSpeaking ? (
-                                    <button onClick={handleSpeak} className="btn" style={{ flex: 1, backgroundColor: 'var(--accent-primary)', color: '#fff', padding: '0.8rem', fontSize: '1rem', borderRadius: '50px', fontWeight: '700' }}>
+                                    <button onClick={handleSpeak} className="btn" style={{ flex: 1, backgroundColor: 'var(--accent-primary)', color: '#fff', padding: '1rem', minHeight: '48px', fontSize: '1rem', borderRadius: '50px', fontWeight: '700' }}>
                                         🔊 Read Aloud
                                     </button>
                                 ) : (
                                     <>
-                                        <button onClick={isPaused ? handleResume : handlePause} className="btn" style={{ flex: 1, backgroundColor: 'var(--bg-card-inner)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)', padding: '0.8rem', borderRadius: '50px', fontWeight: '700' }}>
+                                        <button onClick={isPaused ? handleResume : handlePause} className="btn" style={{ flex: 1, backgroundColor: 'var(--bg-card-inner)', color: 'var(--text-primary)', border: '1px solid var(--border-subtle)', padding: '1rem', minHeight: '48px', borderRadius: '50px', fontWeight: '700' }}>
                                             {isPaused ? '▶️ Resume' : '⏸️ Pause'}
                                         </button>
-                                        <button onClick={handleStop} className="btn" style={{ flex: 1, backgroundColor: 'var(--danger)', color: '#fff', padding: '0.8rem', borderRadius: '50px', fontWeight: '700' }}>
+                                        <button onClick={handleStop} className="btn" style={{ flex: 1, backgroundColor: 'var(--danger)', color: '#fff', padding: '1rem', minHeight: '48px', borderRadius: '50px', fontWeight: '700' }}>
                                             ⏹️ Stop
                                         </button>
                                     </>
@@ -211,7 +211,7 @@ const TextToSpeech = () => {
                         </div>
 
                         {/* Controls Sidebar */}
-                        <aside style={{ backgroundColor: 'var(--bg-card)', padding: 'var(--card-padding)', borderRadius: '24px', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '1.5rem', transition: 'all 0.3s ease' }}>
+                        <aside style={{ width: '100%', lg: '320px', backgroundColor: 'var(--bg-card)', padding: 'var(--card-padding)', borderRadius: '24px', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '1.5rem', transition: 'all 0.3s ease' }}>
                             <div style={{ position: 'relative' }} ref={dropdownRef}>
                                 <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
                                     VOICE SELECTION

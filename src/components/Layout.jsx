@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 const Layout = ({ children }) => {
     const { isDarkMode, toggleDarkMode } = useTheme();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
 
     const navLinks = [
@@ -18,10 +19,16 @@ const Layout = ({ children }) => {
     return (
         <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-background'} text-on-background selection:bg-tertiary-fixed selection:text-on-tertiary-fixed`}>
             {/* TopNavBar Navigation Shell */}
-            <nav className={`${isDarkMode ? 'bg-slate-900' : 'bg-[#1E3A8A]'} shadow-xl border-b-4 border-amber-500 w-full top-0 z-50 sticky`}>
-                <div className="flex justify-between items-center w-full px-6 py-4 mx-auto max-w-7xl">
-                    <div className="flex items-center gap-8">
-                        <Link to="/" className={`text-2xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-white'} font-headline no-underline`}>
+            <nav className={`${isDarkMode ? 'bg-slate-900' : 'bg-[#1E3A8A]'} shadow-xl border-b-4 border-amber-500 w-full top-0 z-50 sticky transition-all duration-300`}>
+                <div className="flex justify-between items-center w-full px-4 md:px-6 py-4 mx-auto max-w-7xl">
+                    <div className="flex items-center gap-3 md:gap-8">
+                        <button 
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="md:hidden material-symbols-outlined text-white p-2 hover:bg-blue-800 rounded-lg transition-colors"
+                        >
+                            {isMenuOpen ? 'close' : 'menu'}
+                        </button>
+                        <Link to="/" className={`text-xl md:text-2xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-white'} font-headline no-underline`}>
                             AccessHelper
                         </Link>
                         <div className="hidden md:flex items-center gap-6 font-body text-base font-medium tracking-wide">
@@ -40,16 +47,33 @@ const Layout = ({ children }) => {
                             ))}
                         </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 md:gap-4">
                         <button
                             onClick={toggleDarkMode}
-                            className="material-symbols-outlined text-white hover:bg-blue-800 p-2 rounded-full focus:ring-4 focus:ring-amber-500 outline-none"
+                            className="material-symbols-outlined text-white hover:bg-blue-800 p-2 rounded-full focus:ring-4 focus:ring-amber-500 outline-none transition-transform hover:scale-110 active:scale-95"
                         >
                             {isDarkMode ? 'light_mode' : 'dark_mode'}
                         </button>
-                        <button className="bg-white text-primary font-bold px-4 py-2 rounded-lg hover:bg-blue-50 focus:ring-4 focus:ring-amber-500 outline-none transition-transform active:scale-95">
-                            Access Mode
-                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Menu Dropdown */}
+                <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100 py-4 border-t border-blue-800' : 'max-h-0 opacity-0'}`}>
+                    <div className="flex flex-col gap-2 px-4">
+                        {navLinks.map(link => (
+                            <Link
+                                key={link.path}
+                                to={link.path}
+                                onClick={() => setIsMenuOpen(false)}
+                                className={`px-4 py-3 rounded-lg text-lg font-bold no-underline transition-colors ${
+                                    location.pathname === link.path
+                                        ? 'bg-amber-500 text-primary'
+                                        : 'text-blue-100 hover:bg-blue-800'
+                                }`}
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </nav>
@@ -57,28 +81,6 @@ const Layout = ({ children }) => {
             <main className="w-full">
                 {children}
             </main>
-
-            {/* Footer */}
-            <footer className={`${isDarkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'} border-t-2`}>
-                <div className="flex flex-col md:flex-row justify-between items-center px-8 py-12 w-full max-w-7xl mx-auto gap-8">
-                    <div className="flex flex-col gap-4">
-                        <span className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'} font-headline`}>AccessHelper</span>
-                        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>© 2024 AccessHelper. All rights reserved.</p>
-                    </div>
-                    <div className="flex flex-wrap justify-center gap-8 font-label text-sm leading-relaxed">
-                        <a className={`${isDarkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-600 hover:text-blue-700'} font-bold underline focus:ring-4 focus:ring-blue-500 outline-none`} href="#">Accessibility Statement</a>
-                        <Link className={`${isDarkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-600 hover:text-blue-700'} underline focus:ring-4 focus:ring-blue-500 outline-none`} to="/privacy">Privacy Policy</Link>
-                    </div>
-                    <div className="flex gap-4">
-                        <button className={`material-symbols-outlined p-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} hover:text-primary transition-colors focus:ring-4 focus:ring-blue-500 outline-none`}>
-                            language
-                        </button>
-                        <button className={`material-symbols-outlined p-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} hover:text-primary transition-colors focus:ring-4 focus:ring-blue-500 outline-none`}>
-                            help
-                        </button>
-                    </div>
-                </div>
-            </footer>
         </div>
     );
 };

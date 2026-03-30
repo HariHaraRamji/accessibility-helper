@@ -171,14 +171,14 @@ const SpeechToText = () => {
                             {isRecording ? '🔴 Recording' : '🎙️ Ready'}
                         </span>
                     </div>
-                    <h1 style={{ fontSize: '2.8rem', marginBottom: '0.5rem' }} className="text-gradient">Voice Notes</h1>
+                    <h1 style={{ fontSize: '2.2rem', md: '2.8rem', marginBottom: '0.5rem' }} className="text-gradient">Voice Notes</h1>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '500px', margin: '0 auto' }}>
                         High-accuracy transcription with secure offline storage.
                     </p>
                 </header>
 
-                <div className="grid" style={{ gridTemplateColumns: '1fr 320px', gap: '1.5rem', alignItems: 'start' }}>
-                    <div className="card" style={{ padding: 'var(--card-padding)', borderRadius: '24px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
+                <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start">
+                    <div className="card" style={{ flex: 1, width: '100%', padding: 'var(--card-padding)', borderRadius: '24px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
                         <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
                             <button
                                 onClick={toggleRecording}
@@ -232,7 +232,7 @@ const SpeechToText = () => {
                             <button
                                 onClick={saveNote}
                                 className="btn btn-primary"
-                                style={{ flex: 2, borderRadius: '50px', padding: '0.75rem' }}
+                                style={{ flex: 2, borderRadius: '50px', padding: '1rem', minHeight: '48px' }}
                                 disabled={!text.trim() && !interimTranscript}
                             >
                                 {editingNoteId ? '💾 Update Note' : '📥 Save Note'}
@@ -241,7 +241,7 @@ const SpeechToText = () => {
                                 <button
                                     onClick={() => { setEditingNoteId(null); setText(''); }}
                                     className="btn btn-secondary"
-                                    style={{ flex: 1, borderRadius: '50px' }}
+                                    style={{ flex: 1, borderRadius: '50px', padding: '1rem', minHeight: '48px' }}
                                 >
                                     Cancel
                                 </button>
@@ -249,7 +249,7 @@ const SpeechToText = () => {
                         </div>
                     </div>
 
-                    <aside className="card" style={{ padding: 'var(--card-padding)', borderRadius: '24px', display: 'flex', flexDirection: 'column', height: 'fit-content', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
+                    <aside className="card" style={{ flex: 1, width: '100%', lg: '320px', padding: 'var(--card-padding)', borderRadius: '24px', display: 'flex', flexDirection: 'column', height: 'fit-content', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                             <h3 style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--text-primary)' }}>Recent Notes</h3>
                             <button

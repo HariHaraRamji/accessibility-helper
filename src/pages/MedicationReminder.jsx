@@ -194,9 +194,9 @@ const MedicationReminder = () => {
             <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 1.5rem' }}>
                 <header style={{ marginBottom: '2rem', position: 'relative' }}>
                     <div className="section-label" style={{ marginBottom: '0.75rem', fontSize: '0.7rem' }}>Health Monitoring</div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', md: 'row', justifyContent: 'space-between', alignItems: 'flex-start', md: 'flex-end', gap: '1.5rem' }}>
                         <div>
-                            <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
+                            <h1 style={{ fontSize: '2rem', md: '2.5rem', fontWeight: '800', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
                                 Medical <span className="text-gradient">Companion</span>
                             </h1>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
@@ -206,7 +206,8 @@ const MedicationReminder = () => {
                         {/* Show current time - Step 7 */}
                         <div style={{
                             background: 'var(--bg-card)', padding: '0.75rem 1.2rem', borderRadius: '12px',
-                            border: '1px solid var(--border-subtle)', textAlign: 'right', transition: 'all 0.3s ease'
+                            border: '1px solid var(--border-subtle)', textAlign: 'right', transition: 'all 0.3s ease',
+                            width: 'fit-content'
                         }}>
                             <div style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--text-muted)' }}>CURRENT TIME</div>
                             <div style={{ fontSize: '1.4rem', fontWeight: '800', fontFamily: 'monospace' }}>
@@ -216,8 +217,8 @@ const MedicationReminder = () => {
                     </div>
                 </header>
 
-                <div className="grid" style={{ gridTemplateColumns: '1.2fr 1fr', gap: '1.5rem' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
+                    <div style={{ flex: 1.2, width: '100%', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                         {medicines.length === 0 ? (
                             <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
                                 <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>💊</div>
@@ -260,7 +261,7 @@ const MedicationReminder = () => {
                                         <button
                                             onClick={() => triggerReminder(med)}
                                             className="btn btn-secondary"
-                                            style={{ flex: 1, padding: '0.6rem', fontSize: '0.85rem', borderRadius: '50px' }}
+                                            style={{ flex: 1, padding: '0.8rem', minHeight: '44px', fontSize: '0.85rem', borderRadius: '50px' }}
                                             title="Test Reminder Now"
                                         >
                                             🔔 Test
@@ -269,16 +270,16 @@ const MedicationReminder = () => {
                                             onClick={() => markTaken(med.id)}
                                             className="btn btn-primary"
                                             style={{
-                                                flex: 2, padding: '0.6rem', fontSize: '0.85rem', borderRadius: '50px',
+                                                flex: 2, padding: '0.8rem', minHeight: '44px', fontSize: '0.85rem', borderRadius: '50px',
                                                 background: med.takenDate === new Date().toDateString() ? 'var(--success)' : 'var(--accent-gradient)'
                                             }}
                                             disabled={med.takenDate === new Date().toDateString()}
                                         >
-                                            {med.takenDate === new Date().toDateString() ? '✓ Taken Today' : 'Mark as Taken'}
+                                            {med.takenDate === new Date().toDateString() ? '✓ Taken' : 'Mark Taken'}
                                         </button>
                                         <button
                                             onClick={() => deleteMed(med.id)}
-                                            style={{ background: 'var(--danger-subtle)', color: 'var(--danger)', border: 'none', padding: '0.6rem 0.8rem', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.3s ease', fontSize: '0.9rem' }}
+                                            style={{ background: 'var(--danger-subtle)', color: 'var(--danger)', border: 'none', padding: '0.7rem 1rem', minHeight: '44px', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.3s ease', fontSize: '0.9rem' }}
                                         >
                                             🗑
                                         </button>
@@ -288,14 +289,14 @@ const MedicationReminder = () => {
                         )}
                     </div>
 
-                    <div className="card" style={{ height: 'fit-content', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease', padding: 'var(--card-padding)' }}>
+                    <div className="card" style={{ flex: 1, width: '100%', height: 'fit-content', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease', padding: 'var(--card-padding)' }}>
                         <h3 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '1.2rem', color: 'var(--text-primary)' }}>Add Medicine</h3>
                         <form onSubmit={handleAddMed} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                             <div>
                                 <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>MEDICINE NAME</label>
                                 <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="e.g. Paracetamol" required style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', fontSize: '0.9rem' }} />
                             </div>
-                            <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                            <div className="flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-3">
                                 <div>
                                     <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>DOSAGE</label>
                                     <input type="text" value={form.dosage} onChange={e => setForm({ ...form, dosage: e.target.value })} placeholder="500mg" style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-subtle)', background: 'var(--bg-card-inner)', color: 'var(--text-primary)', fontSize: '0.9rem' }} />
@@ -358,7 +359,7 @@ const MedicationReminder = () => {
                                 />
                             </div>
 
-                            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '0.8rem', fontSize: '0.95rem', borderRadius: '50px' }}>
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1rem', minHeight: '48px', fontSize: '0.95rem', borderRadius: '50px' }}>
                                 Add Medicine
                             </button>
                         </form>

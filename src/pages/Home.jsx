@@ -9,15 +9,15 @@ const Home = () => {
     return (
         <Layout>
             {/* Hero Section */}
-            <section className={`relative overflow-hidden pt-20 pb-24 px-6 text-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-surface-container-lowest'}`}>
+            <section className={`relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 px-4 md:px-6 text-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-surface-container-lowest'}`}>
                 <div className="max-w-4xl mx-auto relative z-10">
                     <span className="inline-block px-4 py-1 mb-6 text-sm font-bold tracking-widest text-[#F59E0B] uppercase font-label">
                         EMPOWERING INDEPENDENCE
                     </span>
-                    <h1 className={`text-5xl md:text-7xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-[#1E3A8A]'} mb-8 leading-[1.1] font-headline`}>
+                    <h1 className={`text-4xl md:text-7xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-[#1E3A8A]'} mb-6 md:mb-8 leading-[1.1] font-headline`}>
                         Hear More. See More.<br />Live More.
                     </h1>
-                    <p className={`text-xl ${isDarkMode ? 'text-slate-400' : 'text-on-surface-variant'} max-w-2xl mx-auto mb-10 leading-relaxed font-body`}>
+                    <p className={`text-lg md:text-xl ${isDarkMode ? 'text-slate-400' : 'text-on-surface-variant'} max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed font-body`}>
                         Revolutionary assistive technology designed to enhance your daily interaction with the world through real-time AI processing and empathetic design.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -44,9 +44,9 @@ const Home = () => {
 
 
             {/* Feature Bento Grid */}
-            <section id="features-section" className={`py-24 px-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-surface'}`}>
+            <section id="features-section" className={`py-16 md:py-24 px-4 md:px-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-surface'}`}>
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex justify-between items-end mb-12">
+                    <div className="flex flex-col md:flex-row justify-between md:items-end mb-12 gap-8">
                         <div className="max-w-xl">
                             <h2 className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-on-surface'} mb-4 font-headline`}>Intelligent Assistance</h2>
                             <p className={isDarkMode ? 'text-slate-400' : 'text-on-surface-variant'}>Manage your accessibility toolkit from a single, high-contrast dashboard designed for maximum efficiency.</p>
@@ -129,13 +129,13 @@ const Home = () => {
             </section>
 
             {/* Visual Context Section */}
-            <section className={`py-24 ${isDarkMode ? 'bg-[#1e293b]' : 'bg-surface-container-low'} px-6`}>
+            <section className={`py-16 md:py-24 ${isDarkMode ? 'bg-[#1e293b]' : 'bg-surface-container-low'} px-4 md:px-6`}>
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div className="order-2 lg:order-1">
                         <div className="relative">
                             <img
                                 alt="Person using assistive technology"
-                                className={`rounded-2xl shadow-2xl w-full h-[500px] object-cover border-8 ${isDarkMode ? 'border-slate-700' : 'border-white'}`}
+                                className={`rounded-2xl shadow-2xl w-full h-[300px] md:h-[500px] object-cover border-4 md:border-8 ${isDarkMode ? 'border-slate-700' : 'border-white'}`}
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOzseq3xOv9hU9Jx-RUJpDidmMvegazOAIZWp9I3Svy3Log_-IWv09leMSM9t2htCXl1_Hm_RmJr335gga9-ItDygtZFoBT3sLadfdpZ0LUV1MtkRQONhBfo4cmAHoalnkGk5vvpmQi2P7qmKCUf8pXSeY9amPKIBEk-vm-xNjUUutc7Sm5rvrcFhztmYOhvUx9DgC8641pz_wWdcDyoyBTiXEFDoT7sCQAd3mmXCWGFI5bRuRF0skGRn5XaRhZHh7yNGJPCdQop8"
                             />
                             <div className="absolute -bottom-6 -right-6 bg-primary p-8 rounded-2xl shadow-2xl hidden md:block max-w-xs">

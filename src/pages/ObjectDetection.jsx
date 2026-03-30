@@ -29,6 +29,7 @@ const ObjectDetection = () => {
     const spokenRef = useRef({}); // { [class]: { lastTime, count } }
     const detectedObjectsRef = useRef([]); // always-fresh for guidance
     const voiceEnabledRef = useRef(true);   // readable inside callbacks
+    const lastSpokenRef = useRef("");     // track last spoken guidance text
 
     const [status, setStatus] = useState("idle");
     const [error, setError] = useState("");
@@ -38,18 +39,22 @@ const ObjectDetection = () => {
     const [objectCount, setObjectCount] = useState(0);
     const [lastGuide, setLastGuide] = useState(""); // live guidance text shown in UI
 
-    const playAudio = (text) => {
-        if (voiceEnabledRef.current && text) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.rate = 0.85;
-            u.pitch = 1;
-            window.speechSynthesis.speak(u);
-        }
-    };
+
 
     // Keep voiceEnabledRef in sync with state so setInterval can read it
     useEffect(() => { voiceEnabledRef.current = voiceEnabled; }, [voiceEnabled]);
+
+    // Speak guidance text automatically when it changes
+    useEffect(() => {
+        if (lastGuide && lastGuide !== lastSpokenRef.current && voiceEnabled) {
+            lastSpokenRef.current = lastGuide;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(lastGuide);
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            window.speechSynthesis.speak(utterance);
+        }
+    }, [lastGuide, voiceEnabled]);
 
     // --- Distance estimation based on bounding box area ---
     function estimateDistance(pred, frameArea) {
@@ -241,10 +246,6 @@ const ObjectDetection = () => {
                 const msg = computeGuidance(obstacles);
                 spokenRef.current[key] = { lastTime: now, count: current ? current.count + 1 : 1 };
                 setLastGuide(msg);
-                const u = new SpeechSynthesisUtterance(msg);
-                u.rate = 0.9;
-                u.pitch = 1;
-                window.speechSynthesis.speak(u);
             }
         } else {
             // Reset guidance cooldown when area clears
@@ -369,10 +370,10 @@ const ObjectDetection = () => {
                     </div>
                 )}
 
-                <div className="grid" style={{ gridTemplateColumns: '1.4fr 1fr', gap: '1.5rem' }}>
+                <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
                     {/* Viewport Column */}
-                    <div>
-                        <div className="card" style={{ padding: '0.5rem', background: '#000', borderRadius: '20px', position: 'relative', overflow: 'hidden', minHeight: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ flex: 1.4 }}>
+                        <div className="card" style={{ padding: '0.5rem', background: '#000', borderRadius: '20px', position: 'relative', overflow: 'hidden', minHeight: '300px', md: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-subtle)' }}>
                             {status === "idle" || status === "error" ? (
                                 <div style={{ textAlign: 'center', color: '#fff', zIndex: 10 }}>
                                     <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>👁️</div>
@@ -399,13 +400,13 @@ const ObjectDetection = () => {
 
                         <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.2rem' }}>
                             {(status !== "idle" && status !== "error") && (
-                                <button onClick={stopVisionAgent} style={{ background: 'var(--danger)', color: '#fff', flex: 1, padding: '0.8rem', fontWeight: '800', borderRadius: '50px', fontSize: '0.9rem', cursor: 'pointer', border: 'none' }}>
+                                <button onClick={stopVisionAgent} style={{ background: 'var(--danger)', color: '#fff', flex: 1, padding: '1rem', minHeight: '48px', fontWeight: '800', borderRadius: '50px', fontSize: '0.9rem', cursor: 'pointer', border: 'none' }}>
                                     Stop Agent
                                 </button>
                             )}
                             <button
                                 onClick={() => setVoiceEnabled(!voiceEnabled)}
-                                style={{ flex: 1, padding: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', borderRadius: '50px', fontSize: '0.9rem', cursor: 'pointer', border: '1px solid var(--border-subtle)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+                                style={{ flex: 1, padding: '1rem', minHeight: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', borderRadius: '50px', fontSize: '0.9rem', cursor: 'pointer', border: '1px solid var(--border-subtle)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
                             >
                                 {voiceEnabled ? '🔊 Voice ON' : '🔇 Voice OFF'}
                             </button>
@@ -413,7 +414,7 @@ const ObjectDetection = () => {
                     </div>
 
                     {/* Info Column */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                         {/* Live guidance status card */}
                         <div className="card" style={{ padding: 'var(--card-padding)', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', transition: 'all 0.3s ease' }}>
                             <h3 style={{ fontSize: '1rem', marginBottom: '0.75rem', fontWeight: '900', letterSpacing: '0.05em', color: 'var(--text-primary)' }}>🧭 LIVE GUIDANCE</h3>
