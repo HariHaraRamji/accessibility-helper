@@ -44,7 +44,7 @@ a.no-underline {
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 24px rgba(30, 58, 138, 0.18);
+  box-shadow: 0 0 24px var(--accent-glow);
   border-color: var(--border-active);
   border-top-color: inherit;
 }
@@ -117,7 +117,7 @@ a.no-underline {
   transform: translateX(-50%);
   width: 220px;
   height: 220px;
-  background: radial-gradient(circle, rgba(30, 58, 138, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
@@ -138,7 +138,7 @@ a.no-underline {
   width: 180px;
   height: 4px;
   margin: 0.5rem auto 0;
-  background: linear-gradient(90deg, #1E3A8A, #3B82F6, #1E3A8A);
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
   border-radius: 2px;
   background-size: 200% 100%;
   animation: underlineShimmer 3s ease-in-out infinite;

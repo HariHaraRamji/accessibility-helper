@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Layout from '../components/Layout';
+import FeatureGuide from '../components/FeatureGuide';
 
 const SpeechToText = () => {
     const [text, setText] = useState('');
@@ -171,7 +172,19 @@ const SpeechToText = () => {
                             {isRecording ? '🔴 Recording' : '🎙️ Ready'}
                         </span>
                     </div>
-                    <h1 style={{ fontSize: '2.2rem', md: '2.8rem', marginBottom: '0.5rem' }} className="text-gradient">Voice Notes</h1>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                        <h1 style={{ fontSize: '2.2rem', md: '2.8rem', margin: 0 }} className="text-gradient">Voice Notes</h1>
+                        <FeatureGuide
+                            title="Voice Notes"
+                            steps={[
+                                { title: 'Start Recording', description: 'Tap the large microphone button to begin. Your browser will ask for mic permission the first time. Speak clearly for best results.' },
+                                { title: 'Live Transcription', description: 'Your words appear in real-time in the transcript area. Gray text shows interim results, black text is finalized. You can also type manually.' },
+                                { title: 'Save Your Note', description: 'Press "Save Note" to store your transcript. Saved notes appear in the sidebar and persist across sessions using local storage.' },
+                                { title: 'Edit & Listen', description: 'Each saved note has Edit ✏️ (loads it back for editing), Read Aloud 🔊 (speaks it), and Delete 🗑️ buttons.' },
+                                { title: 'Export All', description: 'Press the "Export" button to download all your notes as a text file for sharing or backup.' },
+                            ]}
+                        />
+                    </div>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '500px', margin: '0 auto' }}>
                         High-accuracy transcription with secure offline storage.
                     </p>

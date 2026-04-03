@@ -9,6 +9,7 @@ import SoundDetection from './pages/SoundDetection';
 import MedicationReminder from './pages/MedicationReminder';
 import About from './pages/About';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
 import './App.css';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route path="/medicine" element={<MedicationReminder />} />
             <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
           </Routes>
         </Router>
       </ThemeProvider>

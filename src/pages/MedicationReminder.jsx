@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../components/Layout';
+import FeatureGuide from '../components/FeatureGuide';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
@@ -17,6 +18,18 @@ const MedicationReminder = () => {
     const [form, setForm] = useState({ name: '', dosage: '', time: '08:00', days: [], color: COLORS[0], notes: '' });
     const [activeAlert, setActiveAlert] = useState(null);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [snoozeCounts, setSnoozeCounts] = useState(() => {
+        try {
+            const saved = localStorage.getItem('snoozeCounts');
+            return saved ? JSON.parse(saved) : {};
+        } catch { return {}; }
+    });
+    const snoozeTimerRef = useRef(null);
+
+    // Persist snooze counts
+    useEffect(() => {
+        localStorage.setItem('snoozeCounts', JSON.stringify(snoozeCounts));
+    }, [snoozeCounts]);
 
     // Step 4: Request notification permission on load
     useEffect(() => {
@@ -67,7 +80,9 @@ const MedicationReminder = () => {
 
         // Voice announcement
         window.speechSynthesis.cancel();
-        const text = `Medicine reminder. Time to take ${medicine.name}. Dosage: ${medicine.dosage}. ${medicine.notes}`;
+        const snoozeNum = snoozeCounts[medicine.id] || 0;
+        const snoozeMsg = snoozeNum > 0 ? `. This is reminder number ${snoozeNum + 1}.` : '';
+        const text = `Medicine reminder. Time to take ${medicine.name}. Dosage: ${medicine.dosage}. ${medicine.notes}${snoozeMsg}`;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.rate = 0.9;
         utterance.pitch = 1;
@@ -80,14 +95,35 @@ const MedicationReminder = () => {
 
         // Browser notification
         if (Notification.permission === "granted") {
-            new Notification(`💊 ${medicine.name} Reminder`, {
+            new Notification(`💊 ${medicine.name} Reminder${snoozeNum > 0 ? ` (×${snoozeNum + 1})` : ''}`, {
                 body: `${medicine.dosage} — ${medicine.notes}`,
                 icon: "/favicon.ico"
             });
         }
 
-        // Auto dismiss after 15 seconds
-        setTimeout(() => setActiveAlert(null), 15000);
+        // Auto dismiss after 20 seconds
+        setTimeout(() => setActiveAlert(null), 20000);
+    };
+
+    const snoozeReminder = (medicine) => {
+        // Increment snooze count
+        setSnoozeCounts(prev => ({
+            ...prev,
+            [medicine.id]: (prev[medicine.id] || 0) + 1
+        }));
+        setActiveAlert(null);
+
+        // Voice feedback
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(`Snoozed. I'll remind you about ${medicine.name} in 5 minutes.`);
+        utterance.rate = 1;
+        window.speechSynthesis.speak(utterance);
+
+        // Re-trigger after 5 minutes
+        if (snoozeTimerRef.current) clearTimeout(snoozeTimerRef.current);
+        snoozeTimerRef.current = setTimeout(() => {
+            triggerReminder(medicine);
+        }, 5 * 60 * 1000); // 5 minutes
     };
 
     // Step 5: Reset "taken" status at midnight
@@ -156,36 +192,58 @@ const MedicationReminder = () => {
 
     return (
         <Layout>
-            {/* Notification Banner - Step 3 & Step 7 */}
+            {/* Notification Banner with Snooze */}
             {activeAlert && (
                 <div style={{
                     position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)',
                     zIndex: 3000, background: 'var(--bg-card)', border: `2px solid ${activeAlert.color}`,
-                    borderRadius: '16px', padding: '1.2rem 1.5rem', minWidth: '320px',
-                    boxShadow: 'var(--shadow-premium)', animation: 'slideDown 0.4s ease-out',
+                    borderRadius: '20px', padding: '1.5rem 1.8rem', minWidth: '360px', maxWidth: '440px',
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.25)', animation: 'slideDown 0.4s ease-out',
                     textAlign: 'center'
                 }}>
-                    <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>💊</div>
-                    <div style={{ fontWeight: '900', fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>
+                    <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>💊</div>
+                    <div style={{ fontWeight: '900', fontSize: '1.2rem', color: 'var(--text-primary)', marginBottom: '0.3rem' }}>
                         {activeAlert.name} ({activeAlert.dosage})
                     </div>
+                    {(snoozeCounts[activeAlert.id] || 0) > 0 && (
+                        <div style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                            padding: '0.3rem 0.8rem', borderRadius: '50px',
+                            background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b',
+                            fontSize: '0.75rem', fontWeight: '900', marginBottom: '0.5rem',
+                        }}>
+                            🔔 Reminded {snoozeCounts[activeAlert.id] + 1} times
+                        </div>
+                    )}
                     <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.2rem' }}>
                         {activeAlert.notes || 'Time to take your medication.'}
                     </div>
-                    <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', gap: '0.6rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <button
+                            onClick={() => snoozeReminder(activeAlert)}
+                            style={{
+                                padding: '0.65rem 1.2rem', fontSize: '0.85rem', borderRadius: '50px',
+                                background: 'rgba(245, 158, 11, 0.12)', color: '#f59e0b',
+                                border: '1px solid rgba(245, 158, 11, 0.3)',
+                                fontWeight: '800', cursor: 'pointer',
+                                transition: 'all 0.2s ease',
+                            }}
+                        >
+                            ⏰ Snooze 5 min
+                        </button>
                         <button
                             onClick={() => setActiveAlert(null)}
                             className="btn btn-secondary"
-                            style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem', borderRadius: '50px' }}
+                            style={{ padding: '0.65rem 1.2rem', fontSize: '0.85rem', borderRadius: '50px' }}
                         >
                             Dismiss
                         </button>
                         <button
-                            onClick={() => { markTaken(activeAlert.id); setActiveAlert(null); }}
+                            onClick={() => { markTaken(activeAlert.id); setSnoozeCounts(prev => { const n = {...prev}; delete n[activeAlert.id]; return n; }); setActiveAlert(null); }}
                             className="btn btn-primary"
-                            style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem', borderRadius: '50px' }}
+                            style={{ padding: '0.65rem 1.2rem', fontSize: '0.85rem', borderRadius: '50px' }}
                         >
-                            Mark Taken
+                            ✓ Mark Taken
                         </button>
                     </div>
                 </div>
@@ -196,14 +254,25 @@ const MedicationReminder = () => {
                     <div className="section-label" style={{ marginBottom: '0.75rem', fontSize: '0.7rem' }}>Health Monitoring</div>
                     <div style={{ display: 'flex', flexDirection: 'column', md: 'row', justifyContent: 'space-between', alignItems: 'flex-start', md: 'flex-end', gap: '1.5rem' }}>
                         <div>
-                            <h1 style={{ fontSize: '2rem', md: '2.5rem', fontWeight: '800', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
-                                Medical <span className="text-gradient">Companion</span>
-                            </h1>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                <h1 style={{ fontSize: '2rem', md: '2.5rem', fontWeight: '800', letterSpacing: '-0.02em', margin: 0 }}>
+                                    Medical <span className="text-gradient">Companion</span>
+                                </h1>
+                                <FeatureGuide
+                                    title="Medical Companion"
+                                    steps={[
+                                        { title: 'Add a Medicine', description: 'Fill in the medicine name, dosage, time, and repeat days in the form on the right. Pick a color tag for quick identification.' },
+                                        { title: 'Set Reminder Time', description: 'Choose the exact time (24-hour format) when you need to take the medicine. Select which days of the week to repeat.' },
+                                        { title: 'Get Notified', description: 'When it\'s time, you\'ll get a voice alert, browser notification, and vibration. The notification pops up at the top of the screen.' },
+                                        { title: 'Snooze or Take', description: 'If you\'re not ready, press "Snooze 5 min" to be reminded again in 5 minutes. The snooze count tracks how many times you\'ve been reminded.' },
+                                        { title: 'Mark as Taken', description: 'Press "Mark Taken" to log that you\'ve taken your dose. The status resets automatically at midnight each day.' },
+                                    ]}
+                                />
+                            </div>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
                                 Accurate reminder engine with 24-hour sync.
                             </p>
                         </div>
-                        {/* Show current time - Step 7 */}
                         <div style={{
                             background: 'var(--bg-card)', padding: '0.75rem 1.2rem', borderRadius: '12px',
                             border: '1px solid var(--border-subtle)', textAlign: 'right', transition: 'all 0.3s ease',
@@ -242,7 +311,12 @@ const MedicationReminder = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                            {(snoozeCounts[med.id] || 0) > 0 && (
+                                                <span style={{ background: 'rgba(245, 158, 11, 0.12)', color: '#f59e0b', padding: '0.3rem 0.75rem', borderRadius: '50px', fontSize: '0.7rem', fontWeight: '900', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                                                    🔔 ×{snoozeCounts[med.id]}
+                                                </span>
+                                            )}
                                             {isDue(med) && <span style={{ background: 'var(--danger-subtle)', color: 'var(--danger)', padding: '0.3rem 0.75rem', borderRadius: '50px', fontSize: '0.7rem', fontWeight: '900' }}>DUE!</span>}
                                             {med.takenDate === new Date().toDateString() && <span style={{ background: 'var(--success-subtle)', color: 'var(--success)', padding: '0.3rem 0.75rem', borderRadius: '50px', fontSize: '0.7rem', fontWeight: '900' }}>TAKEN</span>}
                                         </div>

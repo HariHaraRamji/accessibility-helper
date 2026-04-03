@@ -48,12 +48,71 @@ const Layout = ({ children }) => {
                         </div>
                     </div>
                     <div className="flex items-center gap-2 md:gap-4">
-                        <button
-                            onClick={toggleDarkMode}
-                            className="material-symbols-outlined text-white hover:bg-blue-800 p-2 rounded-full focus:ring-4 focus:ring-amber-500 outline-none transition-transform hover:scale-110 active:scale-95"
-                        >
-                            {isDarkMode ? 'light_mode' : 'dark_mode'}
-                        </button>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                            <button
+                                onClick={toggleDarkMode}
+                                aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                                style={{
+                                    position: 'relative',
+                                    width: '72px',
+                                    height: '36px',
+                                    borderRadius: '100px',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    background: isDarkMode
+                                        ? 'linear-gradient(135deg, #1e293b, #334155)'
+                                        : 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+                                    boxShadow: isDarkMode
+                                        ? '0 2px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.05)'
+                                        : '0 2px 12px rgba(245,158,11,0.4), inset 0 1px 2px rgba(255,255,255,0.3)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '3px',
+                                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    overflow: 'hidden',
+                                }}
+                            >
+                                {/* Icons positioned on each side */}
+                                <span style={{
+                                    position: 'absolute',
+                                    left: '10px',
+                                    fontSize: '14px',
+                                    opacity: isDarkMode ? 0.4 : 1,
+                                    transition: 'opacity 0.3s ease',
+                                    zIndex: 1,
+                                    filter: isDarkMode ? 'none' : 'drop-shadow(0 0 3px rgba(255,255,255,0.5))',
+                                }}>☀️</span>
+                                <span style={{
+                                    position: 'absolute',
+                                    right: '10px',
+                                    fontSize: '14px',
+                                    opacity: isDarkMode ? 1 : 0.4,
+                                    transition: 'opacity 0.3s ease',
+                                    zIndex: 1,
+                                    filter: isDarkMode ? 'drop-shadow(0 0 3px rgba(200,200,255,0.4))' : 'none',
+                                }}>🌙</span>
+                                {/* Slider thumb */}
+                                <div style={{
+                                    width: '30px',
+                                    height: '30px',
+                                    borderRadius: '50%',
+                                    background: isDarkMode ? '#0f172a' : '#ffffff',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+                                    transform: isDarkMode ? 'translateX(36px)' : 'translateX(0)',
+                                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    zIndex: 2,
+                                }} />
+                            </button>
+                            <span style={{
+                                fontSize: '0.6rem',
+                                fontWeight: '800',
+                                color: 'rgba(255,255,255,0.7)',
+                                letterSpacing: '0.08em',
+                                textTransform: 'uppercase',
+                            }}>
+                                {isDarkMode ? 'Dark' : 'Light'}
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -81,6 +140,32 @@ const Layout = ({ children }) => {
             <main className="w-full">
                 {children}
             </main>
+
+            <footer className="bg-footer border-t-4 border-[#F59E0B] py-12 px-4 md:px-6 mt-20">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div className="flex flex-col items-center md:items-start gap-4">
+                        <Link to="/" className="text-2xl font-bold text-on-surface font-headline no-underline">
+                            AccessHelper
+                        </Link>
+                        <p className="text-on-surface-variant text-sm max-w-xs text-center md:text-left font-body">
+                            Empowering independence through intelligent assistive technology and empathetic design.
+                        </p>
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-8 items-center">
+                        <div className="flex gap-6">
+                            <Link to="/privacy" className="text-on-surface-variant hover:text-on-surface transition-colors no-underline text-sm font-medium font-body">
+                                Privacy Policy
+                            </Link>
+                            <Link to="/terms" className="text-on-surface-variant hover:text-on-surface transition-colors no-underline text-sm font-medium font-body">
+                                Terms and Conditions
+                            </Link>
+                        </div>
+                        <p className="text-on-surface-variant text-xs font-body">
+                            © 2026 AccessHelper. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 };

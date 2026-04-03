@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import FeatureGuide from '../components/FeatureGuide';
 
 const MODEL_URL = "https://teachablemachine.withgoogle.com/models/eJRlxjb1B/";
 
@@ -202,9 +203,21 @@ const SoundDetection = () => {
                     <div className="section-label" style={{ marginBottom: '0.75rem', fontSize: '0.7rem' }}>Acoustic Intelligence v3</div>
                     <div style={{ display: 'flex', flexDirection: 'column', md: 'row', justifyContent: 'space-between', alignItems: 'flex-start', md: 'flex-end', gap: '1.5rem' }}>
                         <div>
-                            <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
-                                Sound <span className="text-gradient">Classifier</span>
-                            </h1>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                <h1 style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.02em', margin: 0 }}>
+                                    Sound <span className="text-gradient">Classifier</span>
+                                </h1>
+                                <FeatureGuide
+                                    title="Sound Classifier"
+                                    steps={[
+                                        { title: 'Start the Engine', description: 'Press "Start Engine" to activate the AI microphone listener. Allow mic access when prompted. The model runs fully on your device.' },
+                                        { title: 'Real-time Detection', description: 'The AI continuously classifies ambient sounds. The confidence meter shows how sure the model is about the detected sound.' },
+                                        { title: 'Alert System', description: 'When a sound is detected with >80% confidence, you get a banner, browser notification, vibration, and an audio beep alert.' },
+                                        { title: 'Detection Log', description: 'All detected sounds with timestamps and confidence scores are shown in the Detection Log on the right side.' },
+                                        { title: 'Supported Sounds', description: 'The AI recognizes: Doorbell, Knocking, Dog Barking, Baby Crying, Fire Alarm, Clapping, Siren, and Glass Breaking.' },
+                                    ]}
+                                />
+                            </div>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
                                 Teachable Machine AI. Fast, reliable, and completely private on-device detection.
                             </p>
